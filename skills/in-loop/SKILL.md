@@ -1,0 +1,55 @@
+---
+name: in-loop
+description: Freeform exploration mode — investigate, debug or prototype without the ticket workflow, delegating discovery and edits to subagents to keep the main context lean. Use when someone wants to explore, troubleshoot or experiment outside the ticket flow, or asks for in-loop.
+---
+
+# in-loop
+
+The mode for "we don't know yet" — exploring the codebase, chasing a bug,
+trying an approach. No tickets, no plans, no formal gates. On activation,
+acknowledge `Mode: IN-LOOP`, then take the user's question or direction.
+
+Ephemeral: create no files or artifacts unless the user asks. Converse in
+the user's language.
+
+## Delegation
+
+Keep the main context lean — delegate and work from the reports:
+
+- Discovery and analysis go to explorer-style subagents. Skip discovery
+  only when exact paths are already known; don't read broadly through
+  source yourself. Report facts as short bullets with `file:line`
+  references.
+- Edits go to a scoped worker subagent. Give it a compact prompt: role
+  and goal, allowed read/write paths, success criteria, and the report
+  format (changed files, tests run, criteria met, blockers).
+- Run independent subagents in parallel when their files and questions
+  don't overlap; dependent ones sequentially.
+
+All three team harnesses have subagents (see
+`research/subagent-support.md`). On one that doesn't: read narrowly and
+keep the context lean anyway.
+
+## Code
+
+Workers may write code, inside the repo's rules (AGENTS.md):
+
+- No ticket → the code is throwaway: experiments and prototypes, never
+  merged.
+- Ticket exists → the normal flow applies: branch with the Jira key,
+  checks, PR. In-loop is a way of working, not an exemption from the
+  workflow.
+
+## Harvest
+
+When the session winds down — or a clear finding lands — summarize in
+English what came out: findings, approaches validated or rejected, work
+discovered. If work was discovered, offer the tickets skill; its gate
+applies as always. A half-formed plan goes through grill-me first. Never
+create tickets yourself.
+
+## Boundary
+
+- A plan taking shape → grill-me
+- Real work discovered → tickets
+- Before claiming something works → check
