@@ -8,8 +8,8 @@ Read this before making changes. Applies to humans and AI agents alike.
 2. Branch off main, named after the ticket:
    `feature/<issue#>-short-description` or `fix/<issue#>-short-description`
    (e.g. `feature/42-login-endpoint`).
-3. Before pushing: run lint + tests locally (`/check` if you use an agent,
-   otherwise `ruff check`, `ruff format --check`, `pytest` in backend/).
+3. Before pushing: run the checks locally (`/check` if you use an agent,
+   otherwise `bash .agents/skills/check/check.sh`). CI runs the same script.
 4. Open a PR against main. CI must be green and one teammate must approve
    before merge. Never push directly to main.
 
