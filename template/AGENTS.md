@@ -22,6 +22,54 @@ Read this before making changes. Applies to humans and AI agents alike.
 - No AI attribution (`Co-Authored-By: Claude`, "Generated with", etc.)
 - Never `--no-verify`, never force-push shared branches
 
+## Project structure
+
+The repo is `backend/` + `frontend/`. New files go where the trees below
+say — when you're unsure where something belongs, this section decides,
+not taste.
+
+Backend (FastAPI):
+
+```
+backend/
+├── alembic.ini
+├── alembic/versions/    # migrations — never edit applied ones
+├── app/
+│   ├── main.py          # creates the app, include_router
+│   ├── api/
+│   │   ├── deps.py      # shared dependencies (get_db, current user)
+│   │   └── routes/      # one file per resource: users.py, auth.py
+│   ├── core/            # config.py (pydantic-settings), db.py (engine +
+│   │                    # sessionmaker), security.py
+│   ├── models/          # SQLAlchemy models, one file per resource
+│   ├── schemas/         # Pydantic request/response, one file per resource
+│   └── services/        # business logic — never imports fastapi
+└── tests/               # mirrors app/: tests/services/test_auth.py
+```
+
+Import direction: `api/routes → services → models + core/db`, never the
+other way. Schemas may be imported by both routes and services.
+
+Frontend (React + Vite):
+
+```
+frontend/src/
+├── main.jsx             # entry
+├── App.jsx              # router + providers
+├── index.css            # Tailwind directives
+├── api/                 # client.js + one file per resource (users.js)
+├── components/          # shared components (UserCard.jsx)
+├── hooks/               # useAuth.js
+├── pages/               # one file per route (LoginPage.jsx)
+├── utils/               # helpers (formatDate.js)
+└── assets/
+```
+
+Folders are by type, not by feature. When one view grows past ~5 related
+files, move it to `src/features/<name>/{api,components,hooks}` — and from
+that day on: no imports between features. No barrel files (index.js that
+only re-exports).
+
 ## Code style
 
 Backend (FastAPI / Python):
