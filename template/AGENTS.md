@@ -4,10 +4,13 @@ Read this before making changes. Applies to humans and AI agents alike.
 
 ## Workflow: ticket → branch → PR
 
-1. Every change starts with a GitHub issue (use the issue template).
-2. Branch off main, named after the ticket:
-   `feature/<issue#>-short-description` or `fix/<issue#>-short-description`
-   (e.g. `feature/42-login-endpoint`).
+1. Every change starts with a Jira ticket in the backlog (agents: the
+   tickets skill drafts and creates them — it needs Jira credentials,
+   see `.env.example`).
+2. Branch off main, named after the ticket's Jira key. The key must be in
+   the branch name and uppercase — that is how Jira links commits and PRs
+   to the ticket: `feature/PROJ-123-short-description` or
+   `fix/PROJ-123-short-description` (e.g. `feature/PROJ-123-login-endpoint`).
 3. Before pushing: run the checks locally (`/check` if you use an agent,
    otherwise `bash .agents/skills/check/check.sh`). CI runs the same script.
 4. Open a PR against main. CI must be green and one teammate must approve
