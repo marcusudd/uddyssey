@@ -1,4 +1,4 @@
-# Agent harness
+# Uddyssey
 
 Shared setup for the group project so everyone works the same way, whatever
 agent they use — Claude Code, OpenAI Codex or Cursor. One install into the
