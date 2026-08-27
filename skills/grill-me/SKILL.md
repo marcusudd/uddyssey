@@ -1,0 +1,60 @@
+---
+name: grill-me
+description: Interview the user in rounds about a plan or decision until every branch of the design tree is settled. Use when someone presents a plan or a significant decision that hasn't been questioned yet — offer it before building starts — or when someone asks to be grilled.
+---
+
+# grill-me
+
+Stress-tests a plan or decision by interviewing its owner until nothing is
+left silently assumed. Works on anything — a feature plan, an architecture
+choice, a library pick. The common chain in this repo is plan → grill →
+tickets. Offering a grill is a question; the user can decline.
+
+## The tree
+
+Map the topic as a design tree: every decision branches into the decisions
+that hang off it. The **frontier** is every question whose prerequisites
+are already settled — the ones you can ask now without guessing at answers
+you haven't heard yet.
+
+## Rounds
+
+Ask the whole frontier in one round, numbered, each question with a
+recommended answer:
+
+    ❓ **Q1** – **<title>**: <question, with options when there are
+    natural ones>
+
+    ➡️ <recommended answer + the reason in a sentence or two>
+
+Then wait for the answers. They reshape the tree — settled decisions
+unblock new questions. Recompute the frontier and ask the next round. A
+question whose answer depends on another question still open this round
+belongs to a later round.
+
+Grill in the user's language.
+
+## Facts vs decisions
+
+Facts are your job, decisions are the user's. If a question can be
+answered from the codebase or the environment, look it up yourself (with a
+subagent, if your harness has them) instead of asking. Only decisions go
+to the user.
+
+## Done
+
+The session ends when the frontier is empty and the user confirms the
+shared understanding. Then write a compact summary — in English, in chat,
+no file:
+
+- **Decided** — each decision, one line
+- **Rejected / parked** — what was deliberately not chosen or postponed
+
+Keep the rejected/parked list concrete — it feeds the tickets skill's
+Out of scope sections.
+
+## Boundary
+
+The skill ends at the summary. If the outcome is a plan for work, offer
+the tickets skill next — the user's yes starts it. Never start building
+and never create tickets yourself.
