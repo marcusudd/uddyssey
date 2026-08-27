@@ -1,0 +1,10 @@
+# Local hooks: catches style issues before commit instead of in CI.
+# Install once per machine: `uv tool install pre-commit` then `pre-commit install`.
+# Run `pre-commit autoupdate` to bump the rev to the latest release.
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.4
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
