@@ -63,6 +63,11 @@ before installing into the group repo.
   `.env`).
 - Cosmetic: install.sh's `.gitignore` merge drops the blank lines
   between groups.
+- **Skill name collisions:** a user's personally installed skills can
+  share names with the template's (e.g. a personal grill-me, giverny
+  handoff/research/rubberduck variants) — the harness may pick the
+  wrong one. Not fixable in the skill files; watch for it during the
+  test-repo round on a machine that has personal skills installed.
 
 ## Decisions in force (don't change without asking)
 
