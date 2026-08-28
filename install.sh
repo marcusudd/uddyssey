@@ -32,5 +32,25 @@ fi
 # .gitkeep files are scaffolding for this repo, not for the target
 find "$TARGET/.claude/skills" "$TARGET/.agents/skills" -name .gitkeep -delete 2>/dev/null || true
 
+# Personal skills can shadow same-named repo skills entirely (seen live in
+# Claude Code: the repo's onboard never appeared in the session's skill
+# list). Make the collision a visible install step, not a silent wrong pick.
+PERSONAL_SKILLS="$HOME/.claude/skills"
+if [ -d "$PERSONAL_SKILLS" ]; then
+  collisions=""
+  for src in skills/*/; do
+    name=$(basename "$src")
+    [ -d "$PERSONAL_SKILLS/$name" ] && collisions="$collisions $name"
+  done
+  if [ -n "$collisions" ]; then
+    echo ""
+    echo "WARNING: personal skills in ~/.claude/skills share names with repo skills:"
+    echo "  $collisions"
+    echo "A personal skill can shadow the repo's completely. Rename or remove the"
+    echo "personal copies, or the wrong skill may answer in the target repo."
+    echo ""
+  fi
+fi
+
 echo "Installed into $TARGET"
 echo "Next: review with 'git status' in the target repo, then commit."

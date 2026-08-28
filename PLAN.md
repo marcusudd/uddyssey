@@ -63,11 +63,15 @@ before installing into the group repo.
   `.env`).
 - Cosmetic: install.sh's `.gitignore` merge drops the blank lines
   between groups.
-- **Skill name collisions:** a user's personally installed skills can
-  share names with the template's (e.g. a personal grill-me, giverny
-  handoff/research/rubberduck variants) — the harness may pick the
-  wrong one. Not fixable in the skill files; watch for it during the
-  test-repo round on a machine that has personal skills installed.
+- **Skill name collisions:** confirmed live 2026-08-28 in the testbed —
+  a personal `~/.claude/skills/onboard` shadowed the repo's completely
+  (the repo's onboard never appeared in the session's skill list; same
+  for grill-me). Fixed two ways: install.sh warns when ~/.claude/skills
+  shares names with skills/, and AGENTS.md states the repo's copy
+  governs on a name clash. Prefixed names (uddyssey-grill-me) were
+  considered and rejected — a prefix only fixes /name invocation, not
+  description-based triggering, and two live variants would still
+  confuse. Remaining: shadowing behavior on Codex/Cursor unverified.
 
 ## Decisions in force (don't change without asking)
 

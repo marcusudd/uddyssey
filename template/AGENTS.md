@@ -8,6 +8,10 @@ Agents: at session start, use the greet skill before anything else — it
 reads the onboard brief and the latest handoff and tells you where things
 stand. When the session is winding down, offer the handoff skill.
 
+This repo's skills live in `.claude/skills/` (`.agents/skills/` for Codex
+and Cursor). If a personally installed skill shares a name with one of
+them, the repo's copy governs — read it from that path instead.
+
 ## Workflow: ticket → branch → PR
 
 1. Every change starts with a Jira ticket in the backlog (agents: the
