@@ -55,6 +55,9 @@ Everything in push, plus:
 
 ## land — merge an approved PR
 
+Needs the `gh` CLI. If it isn't installed, stop and say so — don't
+improvise API calls.
+
 1. Verify with `gh` that the PR has an approval and green CI — if
    either is missing, stop and report what's missing.
 2. `gh pr merge --squash` — keep the branch, no `--delete-branch`.

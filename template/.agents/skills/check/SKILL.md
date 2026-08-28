@@ -20,6 +20,11 @@ directory (the directory containing this SKILL.md):
 
 Run the full check unless the user asked for one side.
 
+Delegate the run to a subagent where the harness supports it: it runs
+the script and reports PASS/FAIL per step plus the trimmed errors, so
+the raw output stays out of the main context. Without subagents, run it
+directly.
+
 ## Report
 
 - Relay the summary: PASS or FAIL per step.
