@@ -2,6 +2,12 @@
 
 Read this before making changes. Applies to humans and AI agents alike.
 
+## Session start
+
+Agents: at session start, use the greet skill before anything else — it
+reads the onboard brief and the latest handoff and tells you where things
+stand. When the session is winding down, offer the handoff skill.
+
 ## Workflow: ticket → branch → PR
 
 1. Every change starts with a Jira ticket in the backlog (agents: the
@@ -17,6 +23,9 @@ Read this before making changes. Applies to humans and AI agents alike.
 4. Open a PR against main. CI must be green and one teammate must approve
    before merge; merges are squash merges. Never push directly to main.
    (Agents: the ship skill handles push, PR and landing.)
+
+Stopping mid-ticket? Agents: the handoff skill saves the session state to
+`handoffs/` (gitignored) so the next session can resume where you left off.
 
 ## Commits
 
