@@ -1,0 +1,67 @@
+---
+name: ship
+description: Take a ticket from branch to merged PR — start the branch, push work, open the PR, or land it once approved. Use when someone wants to start on a ticket, push, open a PR or merge an approved one — offer it when work on a ticket seems done.
+---
+
+# ship
+
+The delivery wrapper around the workflow in AGENTS.md: ticket → branch →
+PR → merge. Four modes, one skill — they share the gates below. Every
+mode needs a ticket key; without a ticket, stop and offer the tickets
+skill instead. Platform calls (ticket fetch, key rules):
+`../ticket-platform/PLATFORM.md`.
+
+Offering ship — when work on a ticket branch seems done — is a
+question; the user can decline.
+
+## Gates
+
+- **Check gate** — before anything is pushed, run the check skill and
+  stop on failure: report, don't fix. Only the user's explicit "push
+  anyway" overrides a red check.
+- **Confirmation gate** — show what is about to leave the machine
+  (commit messages, and in ship mode the PR title + body) and wait for
+  a yes. Committing locally is fine before the gate; push and PR happen
+  only after it.
+
+## start — begin work on a ticket
+
+1. Fetch the ticket (platform file) and show its summary.
+2. `git switch main && git pull`, then branch off:
+   `feature/<KEY>-short-slug`, or `fix/` when the ticket is clearly a
+   bug fix. The key stays uppercase — that is what links the branch,
+   its commits and its PR to the ticket.
+
+## push — push the current branch, no PR
+
+1. Check gate.
+2. Commit the uncommitted work, following the commit rules in
+   AGENTS.md (conventional commits). Propose a split into logical
+   commits when the diff is clearly several changes; otherwise one
+   commit. No ticket key in subjects — the branch name carries the
+   link.
+3. Confirmation gate, then push the current branch to origin.
+
+## ship — open the PR (default)
+
+Everything in push, plus:
+
+4. Draft the PR: title in the same conventional style, no key; body is
+   a Summary (1–3 bullets) and a Test plan checklist, in English, no
+   AI attribution. The draft goes through the confirmation gate
+   together with the commits.
+5. Open the PR against main and report the URL.
+
+## land — merge an approved PR
+
+1. Verify with `gh` that the PR has an approval and green CI — if
+   either is missing, stop and report what's missing.
+2. `gh pr merge --squash` — keep the branch, no `--delete-branch`.
+   Then `git switch main && git pull`.
+
+## Boundary
+
+Ship ends when the PR URL (ship) or the merge result (land) is
+reported. It never pushes to main directly, never merges without an
+approved PR, and never moves ticket status — the team moves cards on
+the board.

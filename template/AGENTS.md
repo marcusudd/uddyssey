@@ -11,16 +11,22 @@ Read this before making changes. Applies to humans and AI agents alike.
    the branch name and uppercase — that is how Jira links commits and PRs
    to the ticket: `feature/PROJ-123-short-description` or
    `fix/PROJ-123-short-description` (e.g. `feature/PROJ-123-login-endpoint`).
+   (Agents: the ship skill's start mode creates the branch.)
 3. Before pushing: run the checks locally (`/check` if you use an agent,
    otherwise `bash .agents/skills/check/check.sh`). CI runs the same script.
 4. Open a PR against main. CI must be green and one teammate must approve
-   before merge. Never push directly to main.
+   before merge; merges are squash merges. Never push directly to main.
+   (Agents: the ship skill handles push, PR and landing.)
 
 ## Commits
 
 - One logical change per commit
-- Subject: imperative mood, capitalized, target 50 chars, hard limit 72,
-  no period, no emojis, no `feat:`/`fix:` prefixes
+- Conventional commits: `<type>: <subject>` where type is one of `feat`,
+  `fix`, `docs`, `refactor`, `test`, `chore`. A scope (`feat(auth): ...`)
+  is allowed, never required.
+- Subject: imperative mood, lowercase after the colon, hard limit 72
+  chars, no period, no emojis
+- No Jira key in the subject — the branch name carries the ticket link
 - Body only when the why isn't obvious from the diff
 - No AI attribution (`Co-Authored-By: Claude`, "Generated with", etc.)
 - Never `--no-verify`, never force-push shared branches
