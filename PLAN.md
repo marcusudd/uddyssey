@@ -7,8 +7,8 @@ moves.
 
 ## Where things stand
 
-All skills through backlog item 5 are grilled and built: tickets,
-grill-me, in-loop, ship, greet + onboard + handoff. The template ships a
+All skills through backlog item 6 are grilled and built: tickets,
+grill-me, in-loop, ship, greet + onboard + handoff, rubberduck. The template ships a
 `.gitignore` and install.sh merges it into the target repo (verified
 against a temp repo). Nothing is verified against the team's real
 Jira/GitHub yet — see open points.
@@ -21,11 +21,10 @@ Jira/GitHub yet — see open points.
 4. ~~ship~~ done
 5. ~~greet + onboard + handoff~~ done (2026-08-28, one shared grill
    session)
-6. **rubberduck** ← next — own variant of the Giverny rubberducking
-   workflow (reference: `.claude/skills/giverny-rubberduck/SKILL.md` —
-   ticket → in-loop research → grill → goal artifact, never
-   implementation).
-7. **research** — research skill (added 2026-08-27). References for the
+6. ~~rubberduck~~ done (2026-08-28) — ticket-to-ready: read ticket →
+   in-loop research → grill → land in the ticket via the tickets
+   reconcile gate. No goal artifact files; Jira stays the single source.
+7. **research** ← next — research skill (added 2026-08-27). References for the
    grill: `giverny-research` (persistent research artifact) and Pocock's
    `research` skill (primary sources → markdown file in the repo).
 
@@ -53,8 +52,8 @@ before installing into the group repo.
 - **install.sh deletes nothing:** if the template was installed before,
   `.github/ISSUE_TEMPLATE/` stays in the group repo and has to be
   removed by hand.
-- **greet/onboard/handoff not verified live:** covered by the test repo
-  step above.
+- **greet/onboard/handoff/rubberduck not verified live:** covered by the
+  test repo step above (rubberduck also needs a filled `.env`).
 - Cosmetic: install.sh's `.gitignore` merge drops the blank lines
   between groups.
 
