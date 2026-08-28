@@ -7,8 +7,9 @@ moves.
 
 ## Where things stand
 
-All skills through backlog item 6 are grilled and built: tickets,
-grill-me, in-loop, ship, greet + onboard + handoff, rubberduck. The template ships a
+All skills through backlog item 7 are grilled and built: tickets,
+grill-me, in-loop, ship, greet + onboard + handoff, rubberduck,
+research. The template ships a
 `.gitignore` and install.sh merges it into the target repo (verified
 against a temp repo). Nothing is verified against the team's real
 Jira/GitHub yet — see open points.
@@ -24,9 +25,14 @@ Jira/GitHub yet — see open points.
 6. ~~rubberduck~~ done (2026-08-28) — ticket-to-ready: read ticket →
    in-loop research → grill → land in the ticket via the tickets
    reconcile gate. No goal artifact files; Jira stays the single source.
-7. **research** ← next — research skill (added 2026-08-27). References for the
-   grill: `giverny-research` (persistent research artifact) and Pocock's
-   `research` skill (primary sources → markdown file in the repo).
+7. ~~research~~ done (2026-08-28) — external questions only (codebase
+   research stays in in-loop/rubberduck); background agent against
+   primary sources → `research/<kebab-topic>.md`, answer first, source
+   URL per claim, no frontmatter; cheaper mid-tier model per spawn
+   where the harness allows (Claude Code and Codex do, Cursor doesn't —
+   see `research/subagent-model-selection.md`); dedupe against existing
+   notes; never commits. Mentioned in AGENTS.md (context-saving
+   rationale); offered from in-loop and rubberduck.
 
 Later pile: endpoint, component, triage, import-linter/eslint enforcement
 of the structure, epic grouping of a plan's tickets, status transitions
@@ -52,8 +58,9 @@ before installing into the group repo.
 - **install.sh deletes nothing:** if the template was installed before,
   `.github/ISSUE_TEMPLATE/` stays in the group repo and has to be
   removed by hand.
-- **greet/onboard/handoff/rubberduck not verified live:** covered by the
-  test repo step above (rubberduck also needs a filled `.env`).
+- **greet/onboard/handoff/rubberduck/research not verified live:**
+  covered by the test repo step above (rubberduck also needs a filled
+  `.env`).
 - Cosmetic: install.sh's `.gitignore` merge drops the blank lines
   between groups.
 
