@@ -25,7 +25,9 @@ or in-loop (explore without the workflow).
    everything the ticket and the codebase can answer: what already
    exists, which models/services/routes/components are touched, which
    acceptance criteria are already satisfied, obsolete or too broad.
-   Never ask the user what code can answer.
+   Never ask the user what code can answer. A question the codebase
+   can't answer (library behavior, API facts) → offer research
+   (`../research/SKILL.md`); its note feeds the grill.
 
 3. **Grill** — grill-me rounds (`../grill-me/SKILL.md`) on what
    remains: genuine product and implementation decisions only — which

@@ -30,6 +30,11 @@ stand. When the session is winding down, offer the handoff skill.
 Stopping mid-ticket? Agents: the handoff skill saves the session state to
 `handoffs/` (gitignored) so the next session can resume where you left off.
 
+Hit a question the codebase can't answer — library behavior, API facts,
+what a spec says? Agents: the research skill sends a background agent to
+primary sources and saves the answer as a note in `research/`, keeping
+your main session's context lean.
+
 ## Commits
 
 - One logical change per commit

@@ -52,5 +52,7 @@ create tickets yourself.
 ## Boundary
 
 - A plan taking shape → grill-me
+- A question the codebase can't answer (library behavior, API facts)
+  → offer research (`../research/SKILL.md`)
 - Real work discovered → tickets
 - Before claiming something works → check
