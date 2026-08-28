@@ -5,33 +5,22 @@ description: Draft Jira tickets from a settled plan or a loose description and c
 
 # tickets
 
-Turns a plan into Jira issues in the project backlog. Jira is the source of
-truth — the team works from the Scrum board, and GitHub issues are not used.
-A single ticket from a loose description is the same flow with n=1.
+Turns a plan into Jira issues in the project backlog. Jira is the source
+of truth — the team works from the Scrum board, and GitHub issues are
+not used. A single ticket from a loose description is the same flow with
+n=1.
 
-## Credentials
-
-Every Jira call needs four env vars: `JIRA_BASE_URL`, `JIRA_EMAIL`,
-`JIRA_API_TOKEN`, `JIRA_PROJECT_KEY`. If they aren't exported, load them
-from `.env` at the repo root inside the same shell command:
-
-    set -a; source .env; set +a; curl ...
-
-If there is no `.env` either, stop and point the user at `.env.example`:
-copy it to `.env`, fill it in, token from
-https://id.atlassian.com/manage-profile/security/api-tokens. Keep the token
-out of everything you print.
-
-Auth on every call: `-u "$JIRA_EMAIL:$JIRA_API_TOKEN"` plus
-`-H "Content-Type: application/json"`.
+Credentials and every API call live in the platform file:
+`../ticket-platform/PLATFORM.md`. This skill is the workflow; the
+platform file is how to talk to the tool.
 
 ## Slice
 
-Input is whatever holds the plan: a plan file if one exists, otherwise the
-conversation. Cut it into tickets where each ticket is a **vertical
-slice** — a demoable path through the layers (route → service → UI, as far
-as the feature reaches), sized for one working session. A ticket nobody
-can demo on its own is two half-tickets; re-cut it.
+Input is whatever holds the plan: a plan file if one exists, otherwise
+the conversation. Cut it into tickets where each ticket is a **vertical
+slice** — a demoable path through the layers (route → service → UI, as
+far as the feature reaches), sized for one working session. A ticket
+nobody can demo on its own is two half-tickets; re-cut it.
 
 Each ticket:
 
@@ -56,56 +45,32 @@ Each ticket:
 
 ## Gate
 
-Show the full draft: every ticket verbatim, plus the blocking edges. Then
-ask numbered control questions, each with a recommended answer, covering:
-granularity (any ticket to split or merge?), the blocking edges, the
-order, and anything missing or to cut. The user's go is the only path to
-Create — for a single ticket too.
+Show the full draft: every ticket verbatim, plus the blocking edges.
+Then ask numbered control questions, each with a recommended answer,
+covering: granularity (any ticket to split or merge?), the blocking
+edges, the order, and anything missing or to cut. The user's go is the
+only path to Create — for a single ticket too.
 
 ## Create
 
-Create in dependency order (blockers first), capturing each new key:
+Create in dependency order (blockers first), capturing each new key,
+then add the blocking links — the create and link calls are in the
+platform file.
 
-    curl -s -u "$JIRA_EMAIL:$JIRA_API_TOKEN" -H "Content-Type: application/json" \
-      -X POST "$JIRA_BASE_URL/rest/api/2/issue" \
-      -d '{"fields": {"project": {"key": "'"$JIRA_PROJECT_KEY"'"},
-           "issuetype": {"name": "Story"},
-           "summary": "As a ..., we need ..., so we can ...",
-           "description": "h2. What & why\n..."}}'
-
-(v2 takes the description as a plain wiki-markup string; v3 demands ADF
-JSON.) New issues land in the backlog on their own — nothing to add to a
-sprint.
-
-Then the links — for "A blocks B", A is the outward issue:
-
-    curl ... -X POST "$JIRA_BASE_URL/rest/api/2/issueLink" \
-      -d '{"type": {"name": "Blocks"},
-           "outwardIssue": {"key": "<A>"}, "inwardIssue": {"key": "<B>"}}'
-
-Done when every approved ticket exists with its links, each reported back
-as `$JIRA_BASE_URL/browse/<KEY>` — and nothing beyond the approved list
-was touched.
+Done when every approved ticket exists with its links, each reported
+back by its browse URL — and nothing beyond the approved list was
+touched.
 
 ## Reconcile
 
-When the plan behind existing tickets has changed: fetch the open tickets,
-compare against the new plan, and draft a proposal — create, update
-(`PUT /rest/api/2/issue/<KEY>`), or close each affected ticket. The whole
-proposal passes the same Gate before anything is touched.
-
-    curl -s -u "$JIRA_EMAIL:$JIRA_API_TOKEN" --get \
-      "$JIRA_BASE_URL/rest/api/3/search/jql" \
-      --data-urlencode "jql=project = $JIRA_PROJECT_KEY AND statusCategory != Done" \
-      --data-urlencode "fields=summary,status"
-
-(The older `/rest/api/2/search` endpoint was removed in 2025.) Read one
-ticket's description with `GET /rest/api/2/issue/<KEY>?fields=description`.
-Closing goes through transitions: `GET .../issue/<KEY>/transitions`, then
-POST the id of the transition whose target status category is Done.
+When the plan behind existing tickets has changed: fetch the open
+tickets (search call in the platform file), compare against the new
+plan, and draft a proposal — create, update, or close each affected
+ticket. The whole proposal passes the same Gate before anything is
+touched. Closing goes through transitions; update, read and transition
+calls are all in the platform file.
 
 ## Boundary
 
-The skill ends with tickets in the backlog. Branch naming (the Jira key
-belongs in the branch name — see AGENTS.md), PRs and status moves are the
-development workflow's job, not this skill's.
+The skill ends with tickets in the backlog. Branch, push, PR and merge
+are the ship skill's job.
