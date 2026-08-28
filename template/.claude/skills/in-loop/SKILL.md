@@ -40,6 +40,15 @@ Workers may write code, inside the repo's rules (AGENTS.md):
   checks, PR. In-loop is a way of working, not an exemption from the
   workflow.
 
+## Debugging
+
+Chasing a bug with an unknown cause: before touching a fix, build a
+reproduction that goes red on exactly that bug — a failing test, a
+script, a curl call — and is fast to rerun. No red repro, no fix. A
+regression test locked in before the fix is recommended, not required —
+PR review settles it. The fix is done when the repro is green and check
+passes again.
+
 ## Harvest
 
 When the session winds down — or a clear finding lands — summarize in

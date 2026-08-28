@@ -96,3 +96,12 @@ before installing into the group repo.
 - Session state goes through the handoff skill into `handoffs/`; this
   file is the durable home for backlog and decisions (decided
   2026-08-28 — replaced the old untracked `HANDOFF.md`).
+- **After a red check** (decided 2026-08-28): triage fork, stated in
+  check's Boundary section — small fix with known cause → fix inline in
+  the active mode; unknown cause → in-loop (which carries the debugging
+  discipline: red repro before fix, regression test recommended); new or
+  bigger work → tickets. Exit gate: the fix is done only when the same
+  check reruns green. Rejected: a dedicated diagnose skill (shadowing
+  confirmed live, overlaps parked triage); a hard regression-test
+  requirement (PR review settles it); routing text in consumers or
+  AGENTS.md (one home in check).

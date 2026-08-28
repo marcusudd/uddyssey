@@ -38,3 +38,16 @@ directly.
 The script never installs anything. When it fails because a prerequisite is
 missing (e.g. node_modules), relay its message as-is — it names the exact
 command to run.
+
+## Boundary
+
+Check ends at the report. When a step is red, offer the fork — the user
+picks the route:
+
+- Small fix, cause known → fix inline in whatever mode is active; the
+  normal workflow rules still apply.
+- Cause unknown → in-loop, which carries the debugging discipline.
+- Turns out to be new or bigger work → tickets.
+
+Whichever route: the fix is done only when this same check runs green
+again.
