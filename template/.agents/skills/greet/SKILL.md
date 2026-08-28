@@ -20,8 +20,10 @@ on?".
 
 ## Flag, don't fix
 
-- No brief → say so and offer the onboard skill. Never run it on your
-  own.
+- No brief → onboard hasn't been run in this repo yet, so its output
+  (`onboard.md`) doesn't exist. Phrase it that way — "no onboard brief
+  yet, run the onboard skill to create one?" — never as something
+  "missing" or "not found". Never run it on your own.
 - The brief's sha is behind HEAD → mention how far and offer onboard.
 - No handoff → fresh start; say so.
 - Missing input is reported, never reconstructed — no exploring the
