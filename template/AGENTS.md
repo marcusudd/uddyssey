@@ -13,14 +13,17 @@ stand. When the session is winding down, offer the handoff skill.
 1. Every change starts with a Jira ticket in the backlog (agents: the
    tickets skill drafts and creates them — it needs Jira credentials,
    see `.env.example`).
-2. Branch off main, named after the ticket's Jira key. The key must be in
+2. Ticket not fully thought through? Optional: rubberduck it first — the
+   rubberduck skill researches the codebase, settles the open decisions
+   with you and lands them in the ticket before any branch is cut.
+3. Branch off main, named after the ticket's Jira key. The key must be in
    the branch name and uppercase — that is how Jira links commits and PRs
    to the ticket: `feature/PROJ-123-short-description` or
    `fix/PROJ-123-short-description` (e.g. `feature/PROJ-123-login-endpoint`).
    (Agents: the ship skill's start mode creates the branch.)
-3. Before pushing: run the checks locally (`/check` if you use an agent,
+4. Before pushing: run the checks locally (`/check` if you use an agent,
    otherwise `bash .agents/skills/check/check.sh`). CI runs the same script.
-4. Open a PR against main. CI must be green and one teammate must approve
+5. Open a PR against main. CI must be green and one teammate must approve
    before merge; merges are squash merges. Never push directly to main.
    (Agents: the ship skill handles push, PR and landing.)
 
