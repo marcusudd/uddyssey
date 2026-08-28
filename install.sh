@@ -17,7 +17,18 @@ if [ ! -d "$TARGET/.git" ]; then
 fi
 
 ./sync.sh
+# .gitignore is merged, not overwritten — the target's own entries survive
+if [ -f "$TARGET/.gitignore" ]; then
+  cp "$TARGET/.gitignore" "$TARGET/.gitignore.pre-install"
+fi
 cp -R template/. "$TARGET"/
+if [ -f "$TARGET/.gitignore.pre-install" ]; then
+  while IFS= read -r line; do
+    grep -qxF "$line" "$TARGET/.gitignore.pre-install" \
+      || printf '%s\n' "$line" >> "$TARGET/.gitignore.pre-install"
+  done < template/.gitignore
+  mv "$TARGET/.gitignore.pre-install" "$TARGET/.gitignore"
+fi
 # .gitkeep files are scaffolding for this repo, not for the target
 find "$TARGET/.claude/skills" "$TARGET/.agents/skills" -name .gitkeep -delete 2>/dev/null || true
 

@@ -1,0 +1,18 @@
+# Secrets
+.env
+
+# Personal agent state (handoff skill)
+handoffs/
+
+# Python
+__pycache__/
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Frontend
+node_modules/
+dist/
+
+# OS
+.DS_Store
