@@ -33,6 +33,7 @@ Jira/GitHub yet — see open points.
    see `research/subagent-model-selection.md`); dedupe against existing
    notes; never commits. Mentioned in AGENTS.md (context-saving
    rationale); offered from in-loop and rubberduck.
+8. goal — not yet grilled.
 
 Later pile: endpoint, component, triage, import-linter/eslint enforcement
 of the structure, epic grouping of a plan's tickets, status transitions
