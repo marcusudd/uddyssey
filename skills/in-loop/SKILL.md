@@ -26,9 +26,8 @@ Keep the main context lean — delegate and work from the reports:
 - Run independent subagents in parallel when their files and questions
   don't overlap; dependent ones sequentially.
 
-All three team harnesses have subagents (see
-`research/subagent-support.md`). On one that doesn't: read narrowly and
-keep the context lean anyway.
+All three team harnesses have subagents. On one that doesn't: read
+narrowly and keep the context lean anyway.
 
 ## Code
 

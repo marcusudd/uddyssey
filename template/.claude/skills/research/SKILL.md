@@ -26,8 +26,7 @@ One agent per question; several questions run as parallel agents, one
 file each. Run it in the background where the harness supports it —
 the session keeps working meanwhile — otherwise as a plain subagent.
 Pick a cheaper model where the harness allows it per spawn (Claude
-Code and Codex do, Cursor doesn't — see
-`research/subagent-model-selection.md`): mid-tier, not bottom-tier —
+Code and Codex do, Cursor doesn't): mid-tier, not bottom-tier —
 tracing claims to their sources takes judgment.
 
 The agent's job:
