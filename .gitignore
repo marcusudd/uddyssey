@@ -1,2 +1,12 @@
 .DS_Store
 handoffs/
+
+# Giverny local files
+.claude/personal/
+.claude/artifacts/
+.claude/scripts/.env
+.claude/scripts/.env.local
+.claude/scripts/.env.*.local
+.claude/scripts/outlook-inbox-tool/.env
+.claude/scripts/outlook-inbox-tool/.cache/
+.claude/scripts/hooks/.anchor-state/
