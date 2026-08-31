@@ -31,6 +31,11 @@ them, the repo's copy governs — read it from that path instead.
    before merge; merges are squash merges. Never push directly to main.
    (Agents: the ship skill handles push, PR and landing.)
 
+Once a ticket's plan is ready, agents can run steps 3–5 in one go: the
+goal skill branches, works the plan with a check after each step, then
+pushes and opens the PR through ship's normal gates — stopping only
+when a real decision comes up.
+
 Stopping mid-ticket? Agents: the handoff skill saves the session state to
 `handoffs/` (gitignored) so the next session can resume where you left off.
 
