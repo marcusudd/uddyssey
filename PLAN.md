@@ -85,6 +85,38 @@ before installing into the group repo.
   description-based triggering, and two live variants would still
   confuse. Remaining: shadowing behavior on Codex/Cursor unverified.
 
+## Open points — internal audit 2026-08-31
+
+Four subagents reviewed the whole set (skill consistency, install/setup,
+portability + concurrency, newcomer walkthrough). No broken pointers, no
+routing gaps, no description overlaps that misfire. Found, unfixed:
+
+- **Codex/Cursor are asserted, not wired.** Nothing in `template/`
+  configures either — no `.codex`/`.cursor` file. That both read
+  `AGENTS.md` and `.agents/skills/` is untested. Highest-value gap;
+  the test-repo round should settle it.
+- **Ticket status is stated inconsistently:** ship and goal both say
+  "never moves ticket status", but tickets' Reconcile closes tickets
+  via transitions. True but confusing — worth one clarifying clause.
+- **grill-me forces English in chat** (`skills/grill-me/SKILL.md:47`,
+  the closing summary) against every sibling's "chat in the user's
+  language".
+- **goal's early stop strands work:** it commits only locally, so a
+  stop before ship leaves no pushed branch, no PR and no Jira trace —
+  only a gitignored handoff on one machine. Person B sees nothing.
+- **Re-install never deletes.** `cp -R template/.` only adds and
+  overwrites; a file removed from the template survives in the target
+  (the `.github/ISSUE_TEMPLATE/` point above is one instance of this).
+- **Portability is confined but real:** `check.sh` hardcodes
+  uv/ruff/mypy/npm, ship hardcodes `gh` and `main`. All fail loudly,
+  but a second project means editing `skills/`.
+- **`ship start` doesn't check for an existing branch/PR** on the key —
+  two people can start the same ticket; it surfaces first at PR time.
+- **PR template says `closes #NN`** (GitHub issues), contradicting
+  Jira-only.
+- Prerequisites (`gh auth login`, uv, Node 22, `.env`, running onboard
+  once per clone) were undocumented — now covered by `template/GUIDE.md`.
+
 ## Decisions in force (don't change without asking)
 
 - Rules and skills stay general — usable in other projects without
