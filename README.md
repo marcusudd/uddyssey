@@ -10,14 +10,17 @@ skills at `git clone`.
 ```
 skills/        Source for all skills. Write each skill ONCE here as
                skills/<name>/SKILL.md (Agent Skills format — all three
-               tools read the same format). Empty for now.
+               tools read the same format).
 template/      Exactly what lands in the group repo root:
   AGENTS.md                 how we work — read by Codex and Cursor
   CLAUDE.md                 imports AGENTS.md so Claude Code reads the same
+  GUIDE.md                  the team's how-to: setup per tool, the
+                            workflow, what each skill does
   .claude/skills/           generated copy, read by Claude Code
   .agents/skills/           generated copy, read by Codex and Cursor
-  .github/                  CI (ruff + pytest, frontend build), issue and
-                            PR templates
+  .github/                  CI (ruff + pytest, frontend build), PR template
+  .env.example              Jira credentials for the tickets skill
+  .gitignore                merged into the target's own on install
   .pre-commit-config.yaml   local ruff hooks
 sync.sh        skills/ → the two generated skill folders
 install.sh     template/ → a target repo

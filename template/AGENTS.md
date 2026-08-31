@@ -2,6 +2,10 @@
 
 Read this before making changes. Applies to humans and AI agents alike.
 
+New here? `GUIDE.md` is the friendlier map — setup per tool, the workflow
+end to end, and what each skill does. This file is the rulebook it points
+back to.
+
 ## Session start
 
 Agents: at session start, use the greet skill before anything else — it
