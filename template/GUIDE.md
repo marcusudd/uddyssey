@@ -49,17 +49,22 @@ same tools CI uses.
 | **Codex** | `AGENTS.md` at the repo root, skills in `.agents/skills/` | Nothing to configure. |
 | **Cursor** | `AGENTS.md`, skills in `.agents/skills/` | Nothing to configure. |
 
+`SKILL.md` is an open format all three tools implement — the same file
+works everywhere, only the folder they look in differs. That's why the
+repo ships two copies of every skill: Claude Code reads `.claude/skills/`
+and nothing else, Codex reads `.agents/skills/`, and Cursor reads both.
+
 Two honest caveats:
 
-- **Only Claude Code is verified.** Codex and Cursor are expected to pick
-  up `AGENTS.md` and `.agents/skills/` on their own, but nobody has
-  confirmed it end to end yet. If a skill doesn't fire in your tool, point
-  it at the file directly: "read `.agents/skills/ship/SKILL.md` and follow
-  it."
+- **Only Claude Code has been run end to end.** The paths above come from
+  Codex's and Cursor's own docs, but nobody has watched a skill fire in
+  those two yet. If one doesn't trigger, point your tool at the file
+  directly: "read `.agents/skills/ship/SKILL.md` and follow it."
 - **Personal skills can hide the repo's.** If you have your own skill with
   the same name (e.g. a personal `research`), it may shadow this repo's
   copy completely. The repo's copy governs — rename or remove your
-  personal one.
+  personal one. Cursor users: it ships built-in skills called `goal` and
+  `onboard`, which collide with two of ours.
 
 ---
 

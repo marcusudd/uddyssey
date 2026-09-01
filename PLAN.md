@@ -29,8 +29,10 @@ Jira/GitHub yet — see open points.
    research stays in in-loop/rubberduck); background agent against
    primary sources → `research/<kebab-topic>.md`, answer first, source
    URL per claim, no frontmatter; cheaper mid-tier model per spawn
-   where the harness allows (Claude Code and Codex do, Cursor doesn't —
-   see `research/subagent-model-selection.md`); dedupe against existing
+   where the harness allows (Claude Code and Codex take it on the
+   spawn call; Cursor has the knob but undocumented and unreliable —
+   re-checked 2026-09-01, `research/subagent-model-selection.md`);
+   dedupe against existing
    notes; never commits. Mentioned in AGENTS.md (context-saving
    rationale); offered from in-loop and rubberduck.
 8. ~~goal~~ done (2026-08-31) — completion mode: a readied ticket
@@ -84,6 +86,10 @@ before installing into the group repo.
   considered and rejected — a prefix only fixes /name invocation, not
   description-based triggering, and two live variants would still
   confuse. Remaining: shadowing behavior on Codex/Cursor unverified.
+  New 2026-09-01: **Cursor ships built-in skills named `goal` and
+  `onboard`** (`~/.cursor/skills-cursor/`, seen on Marcus's machine) —
+  direct name clashes with two of ours. install.sh's warning only looks
+  at `~/.claude/skills`, so it stays silent about this.
 
 ## Open points — internal audit 2026-08-31
 
@@ -91,10 +97,9 @@ Four subagents reviewed the whole set (skill consistency, install/setup,
 portability + concurrency, newcomer walkthrough). No broken pointers, no
 routing gaps, no description overlaps that misfire. Found, unfixed:
 
-- **Codex/Cursor are asserted, not wired.** Nothing in `template/`
-  configures either — no `.codex`/`.cursor` file. That both read
-  `AGENTS.md` and `.agents/skills/` is untested. Highest-value gap;
-  the test-repo round should settle it.
+- ~~**Codex/Cursor are asserted, not wired.**~~ Settled on paper
+  2026-09-01 — see "Harness discovery" below. Nothing needs wiring; what
+  remains is running it live.
 - **Ticket status is stated inconsistently:** ship and goal both say
   "never moves ticket status", but tickets' Reconcile closes tickets
   via transitions. True but confusing — worth one clarifying clause.
@@ -116,6 +121,58 @@ routing gaps, no description overlaps that misfire. Found, unfixed:
   Jira-only.
 - Prerequisites (`gh auth login`, uv, Node 22, `.env`, running onboard
   once per clone) were undocumented — now covered by `template/GUIDE.md`.
+
+## Open point — research skill leaks into the main session
+
+Seen live 2026-09-01: delegation worked, but the main session gathered
+raw material around it anyway — a `strings` dump of the Codex binary
+before spawning (largest single context cost of the session, and it
+produced a *wrong* conclusion that had to be retracted), plus its own
+WebFetch calls to double-check the agent. The skill says what the agent
+must do and nothing about what the main session must not do.
+
+Proposed (not built, needs a grill pass): main session never gathers
+itself — no fetch/curl/strings/greps into external installs, before or
+after spawn; agent quotes raw source text for the load-bearing claim
+rather than a summariser's paraphrase; a finding that contradicts
+"Decisions in force" gets a second agent, not a main-session check.
+
+## Harness discovery — settled 2026-09-01
+
+Researched against vendor docs and the `openai/codex` source; notes in
+`research/codex-skills-and-instructions.md`,
+`research/cursor-skills-and-instructions.md`,
+`research/cross-harness-skill-conventions.md`.
+
+**The two-folder design is correct and minimal.** `SKILL.md` with
+`name` + `description` frontmatter is an open standard (agentskills.io,
+originally Anthropic's) that all three harnesses implement. Only the
+directory differs:
+
+- Codex reads `.agents/skills/` — its primary documented path, walked
+  from cwd up to the repo root, then `~/.agents/skills`. Also reads
+  `.codex/skills/`.
+- Cursor reads `.agents/skills/` and `.cursor/skills/`, plus
+  `.claude/skills/` and `.codex/skills/` for compatibility.
+- Claude Code reads **only** `.claude/skills/` — never `.agents/`.
+
+So Claude Code forces the second copy; nothing can collapse it to one
+folder. `AGENTS.md` is read automatically by both Codex (git root down
+to cwd, closer files win, 32 KiB cap via `project_doc_max_bytes` —
+ours is 5.8 KB) and Cursor (root + nested). All 11 skills use only
+`name` + `description`, which is inside the six spec-portable fields.
+Nothing to configure in `template/` for either tool.
+
+Still to check live (test-repo round):
+
+- **Cursor scans both our folders** (`.agents/skills/` and
+  `.claude/skills/`), so every skill is present twice. Whether it
+  dedupes by name or loads both is unconfirmed — one weak source says
+  it dedupes by path, which would mean doubles.
+- Skills actually firing on description match in Codex and Cursor.
+- Whether Cursor's built-in `goal`/`onboard` shadow ours.
+- Codex's precedence when a name exists in both `.codex/skills/` and
+  `.agents/skills/` — not documented anywhere we could find.
 
 ## Decisions in force (don't change without asking)
 
