@@ -90,20 +90,60 @@ backend/ + frontend/ skeleton, run each skill for real — tickets and
 ship need a filled `.env` and `gh` against the team's environment)
 before installing into the group repo.
 
+## Live test round 2 — 2026-09-01, fresh target (uddyssey-livetest)
+
+Fresh target repo `~/projects/uddyssey-livetest` (backend/frontend-
+skelett, privat GitHub-repo marcusudd/uddyssey-livetest). Skills körda
+på riktigt i barnsessioner (`claude -p` i targetet, verktygs-allowlist,
+gate-svar via `--resume`). Verifierat grönt:
+
+- install.sh: relativ path, kollisionsvarning (Cursors inbyggda
+  goal/onboard), inventarie, gitignore-merge, plans/.gitkeep, inga
+  skill-.gitkeeps.
+- CI triggar på varje branch-push och blir grön (~22s) — inga PRs.
+- check: gröna vägen lokalt + i CI; röda vägen rapporterar rått via
+  subagent, fixar inget, erbjuder triage-forken.
+- greet: triggar själv i färsk session, korrekt "ingen brief än"-
+  frasering; senare session serverar handoff + flaggar briefen N
+  commits bakom och erbjuder onboard.
+- ship start utan .env: stannar korrekt, ingen branch, pekar på
+  .env.example.
+- ship push: check-gate, konventionell commit, **confirmation-gaten
+  höll i icke-interaktiv körning** (git push var tillåtet — bara
+  skillen hindrade); push först efter ja.
+- ship merge: alla fyra gates i ordning; **nej lämnade main orörd**;
+  ja → `--no-ff`, "Merged to main"-rad i planfilens header, commit på
+  main, push. Ticketstatus orörd, branchen lämnad åt användaren.
+- handoff: rätt filnamn/plats, gitignorerad, referenstät.
+
+**Fynd — onboard kan inte skriva sin brief i Claude Code:**
+`.git/onboard.md` stoppas av harnessens sensitive-file-skydd (både
+Write-verktyget och shell-redirect, även med Write tillåtet).
+Barnsessionen skrev till /private/tmp och bad användaren flytta filen.
+Placeringen "inuti .git så den aldrig kan committas" kolliderar alltså
+med harnessen — behöver en grill-runda (t.ex. gitignorerad fil i
+repo-roten i stil med handoffs/). Onboards delta-läge stupar på samma
+skrivning.
+
+Kvar från rundan: Jira-legen (tickets/rubberduck/goal end-to-end —
+.env-kopiering till targetet blockerades av harness-klassificeraren,
+Marcus kopierar själv), Codex/Cursor (inga CLI:er på maskinen —
+manuellt), onboard --refresh (meningslös tills skrivfyndet är löst).
+
 ## Open points — verification against real services
 
 - **tickets not verified live:** the first run against the team's Jira
   has to confirm the Story issue type, the project key and the Blocks
   link type name. `.env` must be filled in first.
-- **ship not verified live:** merge mode needs `gh` logged in against
-  the group repo to read branch CI status. (Land mode and branch
-  protection are gone — see the redesign above.)
+- ~~**ship not verified live**~~ — push and merge modes verified
+  2026-09-01 against uddyssey-livetest (see live test round 2); the
+  group repo's own CI remains unexercised.
 - **install.sh deletes nothing:** if the template was installed before,
   `.github/ISSUE_TEMPLATE/` stays in the group repo and has to be
   removed by hand.
-- **greet/onboard/handoff/rubberduck/research/goal not verified
-  live:** covered by the test repo step above (rubberduck and goal
-  also need a filled `.env`).
+- **rubberduck/research/goal not verified live:** need a filled `.env`
+  in the livetest target (greet/handoff verified, onboard blocked on
+  the .git write finding — see live test round 2).
 - Cosmetic: install.sh's `.gitignore` merge drops the blank lines
   between groups.
 - **Skill name collisions:** confirmed live 2026-08-28 in the testbed —
