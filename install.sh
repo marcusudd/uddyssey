@@ -32,24 +32,52 @@ fi
 # .gitkeep files are scaffolding for this repo, not for the target
 find "$TARGET/.claude/skills" "$TARGET/.agents/skills" -name .gitkeep -delete 2>/dev/null || true
 
-# Personal skills can shadow same-named repo skills entirely (seen live in
-# Claude Code: the repo's onboard never appeared in the session's skill
-# list). Make the collision a visible install step, not a silent wrong pick.
-PERSONAL_SKILLS="$HOME/.claude/skills"
-if [ -d "$PERSONAL_SKILLS" ]; then
-  collisions=""
+# A same-named skill installed on the machine can shadow the repo's entirely
+# (seen live in Claude Code: the repo's onboard never appeared in the
+# session's skill list). Make the collision a visible install step, not a
+# silent wrong pick. Each harness reads several user-level roots, and Cursor
+# additionally ships built-in skills — which collide the same way but can't
+# be renamed away.
+collisions_in() {
+  root="$1"
+  [ -d "$root" ] || return 0
+  found=""
   for src in skills/*/; do
+    [ -f "$src/SKILL.md" ] || continue   # ticket-platform is a reference, not a skill
     name=$(basename "$src")
-    [ -d "$PERSONAL_SKILLS/$name" ] && collisions="$collisions $name"
+    if [ -d "$root/$name" ]; then found="$found $name"; fi
   done
-  if [ -n "$collisions" ]; then
-    echo ""
-    echo "WARNING: personal skills in ~/.claude/skills share names with repo skills:"
-    echo "  $collisions"
-    echo "A personal skill can shadow the repo's completely. Rename or remove the"
-    echo "personal copies, or the wrong skill may answer in the target repo."
-    echo ""
+  if [ -n "$found" ]; then
+    printf '  %s —%s\n' "${root/#$HOME/~}" "$found"
   fi
+  return 0
+}
+
+personal=$(
+  for root in "$HOME/.claude/skills" "$HOME/.codex/skills" \
+              "$HOME/.cursor/skills" "$HOME/.agents/skills"; do
+    collisions_in "$root"
+  done
+)
+builtin=$(collisions_in "$HOME/.cursor/skills-cursor")
+
+if [ -n "$personal" ] || [ -n "$builtin" ]; then
+  echo ""
+  echo "WARNING: skills on this machine share names with this repo's skills."
+  echo "A same-named skill can shadow the repo's completely, and the wrong one"
+  echo "may answer in the target repo."
+  if [ -n "$personal" ]; then
+    echo ""
+    echo "Your own — rename or remove your copy:"
+    echo "$personal"
+  fi
+  if [ -n "$builtin" ]; then
+    echo ""
+    echo "Cursor built-ins — these can't be removed. In Cursor, point the agent"
+    echo "at the file instead: 'read .agents/skills/<name>/SKILL.md and follow it'."
+    echo "$builtin"
+  fi
+  echo ""
 fi
 
 echo "Installed into $TARGET"
