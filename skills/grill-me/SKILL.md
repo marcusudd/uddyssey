@@ -56,5 +56,12 @@ Out of scope sections.
 ## Boundary
 
 The skill ends at the summary. If the outcome is a plan for work, offer
-the tickets skill next — the user's yes starts it. Never start building
-and never create tickets yourself.
+the next step — the user's yes starts it, never the offer itself:
+
+- No ticket yet → the tickets skill.
+- A ticket exists → writing the plan file, in the shape and place
+  rubberduck's Land phase prescribes (`../rubberduck/SKILL.md`):
+  `plans/<YYYY-MM-DD>-<KEY>-<slug>.md`. Offered, never automatic — a
+  grill about e.g. a library pick is not a plan.
+
+Never start building and never create tickets yourself.

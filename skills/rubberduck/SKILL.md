@@ -34,27 +34,41 @@ or in-loop (explore without the workflow).
    (deletion, reversal, refresh), v1 or a later ticket. An answer that
    raises a new code question → back to research before the next round.
 
-4. **Land** — draft a reconcile proposal for the tickets skill
+4. **Land** — two halves, file first:
+
+   **The plan file.** Write `plans/<YYYY-MM-DD>-<KEY>-<slug>.md` —
+   exactly four parts:
+
+       <header: ticket key, date, status>
+       ## Steps        (numbered; each checkable — goal works and
+                        commits per step)
+       ## Decisions    (the grill's outcomes, each with its reason)
+       ## Out of scope
+
+   The file owns the "how"; the ticket keeps the what and why —
+   nothing duplicated between them. A re-grill later writes a NEW
+   dated file; the old one stays as history. The file lands
+   uncommitted — it is committed as the branch's first commit (ship
+   start / goal do this) and reaches main with the merge.
+
+   **The ticket.** Draft a reconcile proposal for the tickets skill
    (`../tickets/SKILL.md`): the sharpened What & why / Acceptance
-   criteria / Out of scope, plus one appended section —
-
-       h2. Implementation notes
-       * <decision, with the reason>
-       * <constraint, with file references>
-       * <suggested approach, a few lines at most>
-
-   Scope changes are part of the proposal: a split becomes new tickets
-   with Blocks links; a ticket that turns out already done or not worth
-   building becomes a close proposal. The tickets skill's gate is the
-   only path to Jira — rubberduck never calls the API itself.
+   criteria / Out of scope, plus one pointer line to the plan file.
+   No plan content in Jira. Scope changes are part of the proposal: a
+   split becomes new tickets with Blocks links; a ticket that turns
+   out already done or not worth building becomes a close proposal.
+   The tickets skill's gate is the only path to Jira — rubberduck
+   never calls the API itself.
 
 ## Done
 
-Done when the proposal has passed the gate and the tickets skill has
-reported the updated ticket(s) by browse URL. Then offer ship start.
+Done when the plan file is written, the proposal has passed the gate
+and the tickets skill has reported the updated ticket(s) by browse URL.
+Then offer ship start or goal.
 
 ## Boundary
 
-- Never implement, never branch — that is ship's job.
+- Never implement, never branch — that is ship's job. The plan file
+  is the one file rubberduck writes.
 - Never touch Jira directly — every write goes through the tickets gate.
 - Ticket content in English, chat in the user's language — as always.

@@ -1,4 +1,5 @@
-# Runs on every PR and on pushes to main.
+# Runs on every push, every branch — branch CI is the remote signal
+# ship's merge-to-main gate requires. (No PRs in this workflow.)
 # Assumes the repo layout is backend/ + frontend/ — adjust paths if yours differs.
 #
 # The checks themselves live in .agents/skills/check/check.sh — the same
@@ -6,9 +7,7 @@
 name: CI
 
 on:
-  pull_request:
   push:
-    branches: [main]
 
 jobs:
   backend:

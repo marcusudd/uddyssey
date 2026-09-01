@@ -72,5 +72,5 @@ calls are all in the platform file.
 
 ## Boundary
 
-The skill ends with tickets in the backlog. Branch, push, PR and merge
+The skill ends with tickets in the backlog. Branch, push and merge
 are the ship skill's job.

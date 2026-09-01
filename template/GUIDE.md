@@ -15,12 +15,13 @@ how-to.
 ### Once per project, by one person
 
 The template is already installed if you can see this file. What still has
-to be switched on by hand, in GitHub:
+to be switched on by hand:
 
-- **Branch protection on `main`** (Settings → Branches): require a PR,
-  require the `backend` and `frontend` checks, require 1 approving review.
 - **The Jira–GitHub integration**, at the org level. Without it, branch
-  names don't link commits and PRs to tickets.
+  names don't link commits to tickets.
+
+There are no PRs and no branch protection in this workflow — main is
+guarded by the ship skill's merge gate instead (see the workflow below).
 
 ### Once per person, after you clone
 
@@ -31,7 +32,8 @@ command fails.
    values. The token comes from
    <https://id.atlassian.com/manage-profile/security/api-tokens>.
    `.env` is gitignored — never commit it.
-2. **GitHub CLI.** `gh auth login`. Needed to merge an approved PR.
+2. **GitHub CLI.** `gh auth login`. Ship's merge mode uses it to
+   verify the branch's CI run is green before anything reaches main.
 3. **Ask your agent to run `onboard`.** It scans the codebase and writes a
    short "what's actually built" brief. The brief is stored inside your
    local `.git/` folder, so it is *not* shared — everyone runs this once.
@@ -73,14 +75,17 @@ Two honest caveats:
 Every change follows the same road:
 
 ```
-   idea  →  grill-me  →  tickets  →  [ rubberduck ]  →  ship start
-                                                             ↓
-                            handoff  ←  ship  ←  check  ←  the work
-                                          ↓                (in-loop
-                                       review              or goal)
-                                          ↓
-                                     ship land
+   idea  →  grill-me  →  tickets  →  [ rubberduck → plan file ]  →  ship start
+                                                                        ↓
+              handoff  ←  ship merge  ←  ship push  ←  check  ←  the work
+                          (only when                             (in-loop
+                           you ask)                               or goal)
 ```
+
+Two skills run *inside* others rather than beside them: grill-me powers
+rubberduck's question rounds, and ship's start/push/merge modes are what
+goal calls at its edges. If two skills feel like they do the same thing,
+that is usually why.
 
 In words:
 
@@ -91,18 +96,25 @@ In words:
    source — we don't use GitHub issues.
 3. **If a ticket is vague, `rubberduck` makes it ready** before any branch
    exists: it researches the code, asks only what the code can't answer,
-   and writes the answers back into the ticket.
+   and lands the outcome as a dated plan file in `plans/` — the ticket
+   keeps the what and why, the file owns the how.
 4. **`ship start` creates the branch**, named with the Jira key in
    uppercase (`feature/PROJ-123-csv-export`). That key is what links your
-   commits and PR to the ticket — get it wrong and the link silently never
+   commits to the ticket — get it wrong and the link silently never
    happens.
 5. **Do the work.** Either hands-on (`in-loop` when you're exploring) or
-   unattended (`goal`, if the ticket already carries a plan).
+   unattended (`goal`, if the ticket already has a plan file). Agents
+   commit to the branch automatically after each green check.
 6. **`check` before you claim anything works.** It runs the same script CI
    runs, so green here means green there.
-7. **`ship` pushes and opens the PR.** You always see the commits and the
-   PR text before anything leaves your machine.
-8. **A teammate reviews, then `ship land`** squash-merges it.
+7. **`ship push` gets the branch to origin.** Proposed when something is
+   achieved, always check-gated — and you see the commits before anything
+   leaves your machine. CI runs on every branch push.
+8. **`ship merge` takes it into main — only when you ask.** Four gates,
+   all mandatory: local check green, branch CI green, your yes with the
+   diff on screen — given before main changes at all — and a clean
+   merge (any conflict stops it). Regular merges, no squash — old
+   branches stay safe to delete.
 
 Bracketing all of it: **`greet`** at the start of a session tells you where
 things stand, **`handoff`** at the end writes down where you stopped.
@@ -136,9 +148,9 @@ only after you approve.
 | Skill | What it does |
 |---|---|
 | `in-loop` | A no-ticket, no-process mode for poking around, chasing a bug, or trying an idea out. |
-| `goal` | Runs a ticket that already has a plan from branch to open PR unattended, stopping only for a real decision. |
+| `goal` | Runs a ticket that already has a plan file from branch to pushed branch unattended, stopping only for a real decision. Never merges to main. |
 | `check` | Runs the project's linters and tests — the same ones CI runs — and reports pass or fail. Never fixes anything itself. |
-| `ship` | Gets the work in: creates the branch, pushes, opens the PR, and merges it once approved. |
+| `ship` | Gets the work in: creates the branch, pushes, and — only on your explicit ask — merges into main through the four-point gate. |
 
 **Support**
 
@@ -155,9 +167,10 @@ only after you approve.
 Three pairs are easy to mix up.
 
 **`ship` or `goal`?**
-Both take a ticket to a PR. `ship` does one step at a time and you drive.
-`goal` does the whole run by itself — but only if the ticket already has an
-implementation plan written into it. No plan, no `goal`.
+Both move a ticket forward. `ship` does one step at a time and you drive.
+`goal` does the whole run by itself — but only if the ticket already has a
+plan file in `plans/`. No plan file, no `goal`. Both end at a pushed
+branch: merging to main is always a separate, explicit ask.
 
 **`grill-me` or `rubberduck`?**
 `grill-me` questions *anything* — a plan, an architecture choice, a library
@@ -189,8 +202,13 @@ touching a fix. If it turns out to be bigger work, it becomes a ticket.
   half-tickets.
 - **Reconcile** (`tickets`) — re-checking open tickets against a plan that
   has since changed, and proposing what to create, update or close.
+- **Plan file** (`plans/`) — a dated, committed file
+  (`2026-09-01-PROJ-123-csv-export.md`) owning a ticket's "how": Steps,
+  Decisions, Out of scope. Written by `rubberduck`, worked by `goal`,
+  closed by `ship merge` with a "Merged to main" line. A re-grill writes
+  a new dated file; old ones stay as history.
 - **The brief** (`onboard`) — the short summary of what exists in the
   codebase, kept in your local `.git/` folder.
 - **Handoff** — your personal end-of-session note in `handoffs/`. It is
   gitignored, so it never reaches your teammates. Anything *they* need
-  belongs in Jira or the PR.
+  belongs in Jira or the repo (the ticket, the plan file, the branch).

@@ -1,6 +1,6 @@
 ---
 name: check
-description: Run the repo's full verification — ruff, mypy and pytest in backend/, build in frontend/ — and report the results raw. Use before saying a task is done, before committing, and before opening a PR, or whenever someone asks to check or verify that everything is green.
+description: Run the repo's full verification — ruff, mypy and pytest in backend/, build in frontend/ — and report the results raw. Use before saying a task is done, before committing, and before pushing or merging, or whenever someone asks to check or verify that everything is green.
 ---
 
 # check

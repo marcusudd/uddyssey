@@ -16,29 +16,41 @@ This repo's skills live in `.claude/skills/` (`.agents/skills/` for Codex
 and Cursor). If a personally installed skill shares a name with one of
 them, the repo's copy governs — read it from that path instead.
 
-## Workflow: ticket → branch → PR
+## Workflow: ticket → plan → branch → main
 
 1. Every change starts with a Jira ticket in the backlog (agents: the
    tickets skill drafts and creates them — it needs Jira credentials,
    see `.env.example`).
 2. Ticket not fully thought through? Optional: rubberduck it first — the
    rubberduck skill researches the codebase, settles the open decisions
-   with you and lands them in the ticket before any branch is cut.
+   with you and lands them as a dated plan file in `plans/` before any
+   branch is cut. The ticket keeps the what and why; the plan file owns
+   the how. Plan files are committed (with the branch's first commit)
+   and stay as history — a re-grill writes a new dated file.
 3. Branch off main, named after the ticket's Jira key. The key must be in
-   the branch name and uppercase — that is how Jira links commits and PRs
+   the branch name and uppercase — that is how Jira links commits
    to the ticket: `feature/PROJ-123-short-description` or
    `fix/PROJ-123-short-description` (e.g. `feature/PROJ-123-login-endpoint`).
    (Agents: the ship skill's start mode creates the branch.)
-4. Before pushing: run the checks locally (`/check` if you use an agent,
-   otherwise `bash .agents/skills/check/check.sh`). CI runs the same script.
-5. Open a PR against main. CI must be green and one teammate must approve
-   before merge; merges are squash merges. Never push directly to main.
-   (Agents: the ship skill handles push, PR and landing.)
+4. Work the plan. Agents commit to the branch automatically after each
+   green check (`/check` if you use an agent, otherwise
+   `bash .agents/skills/check/check.sh` — CI runs the same script on
+   every branch push). Pushes to the branch are proposed — when a plan
+   step or the plan is done — and always check-gated.
+5. Merging to main happens only through the ship skill's merge mode,
+   only when you explicitly ask for it, and only through its gate:
+   local check green, branch CI green, your yes with the diff in front
+   of you — before main changes at all — and a clean merge (any
+   conflict stops the run). Merges
+   are regular merges — no squash, so branch history stays reachable
+   from main and old branches are always safe to delete. Never push to
+   main by hand. No PRs — CI on every branch push replaces them.
 
-Once a ticket's plan is ready, agents can run steps 3–5 in one go: the
-goal skill branches, works the plan with a check after each step, then
-pushes and opens the PR through ship's normal gates — stopping only
-when a real decision comes up.
+Once a ticket's plan file exists, agents can run steps 3–4 in one go:
+the goal skill branches, works the plan with a check and a commit after
+each step, then pushes the branch through ship's normal gates —
+stopping only when a real decision comes up. Merging to main stays
+yours, always.
 
 Stopping mid-ticket? Agents: the handoff skill saves the session state to
 `handoffs/` (gitignored) so the next session can resume where you left off.
@@ -95,7 +107,7 @@ Frontend (React + Vite):
 frontend/src/
 ├── main.jsx             # entry
 ├── App.jsx              # router + providers
-├── index.css            # Tailwind directives
+├── index.css            # Tailwind entry point
 ├── api/                 # client.js + one file per resource (users.js)
 ├── components/          # shared components (UserCard.jsx)
 ├── hooks/               # useAuth.js

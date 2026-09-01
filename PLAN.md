@@ -11,8 +11,36 @@ The whole skill backlog (items 1–8) is grilled and built: tickets,
 grill-me, in-loop, ship, greet + onboard + handoff, rubberduck,
 research, goal. The template ships a
 `.gitignore` and install.sh merges it into the target repo (verified
-against a temp repo). Nothing is verified against the team's real
-Jira/GitHub yet — see open points.
+against a temp repo). The testbed round ran 2026-09-01 (findings in
+`report.md`, local working material) and led to the workflow redesign
+below. Nothing is verified against the team's real Jira/GitHub yet —
+see open points.
+
+## Workflow redesign — decided and implemented 2026-09-01
+
+Out of the testbed round (full spec and reasoning in `report.md`). PRs
+are dropped entirely — a solo author can't approve their own PR, and the
+gates move into ship instead:
+
+- **Plans are files:** `plans/<YYYY-MM-DD>-<KEY>-<slug>.md`, committed
+  with the branch's first commit. Written by rubberduck's Land (grill-me
+  offers it standalone), worked by goal, closed by ship merge with a
+  "Merged to main" line. The ticket keeps What & why / AC / Out of
+  scope plus a pointer; the file owns the how. A re-grill writes a new
+  dated file.
+- **ship is start / push / merge** (PR and land modes gone). Merge runs
+  only on the user's explicit ask, through four gates: local check
+  green, branch CI green, the user's yes with diffstat + commit list on
+  screen — before main changes at all — and a clean merge (conflicts
+  are a hard stop). Regular merges,
+  no squash — branch history stays reachable, old branches safe to
+  delete.
+- **goal ends at the pushed branch** — never merges.
+- **CI triggers on every branch push** (replaces PR CI); the PR
+  template is deleted.
+- Rejected, so nobody relitigates: squash merges, fast-forward-only, a
+  separate plan skill, dual plan sources (file + Jira), gitignored
+  plans/. Branch protection and squash settings are moot without PRs.
 
 ## Skill backlog (one grill session per skill, in order)
 
@@ -67,8 +95,9 @@ before installing into the group repo.
 - **tickets not verified live:** the first run against the team's Jira
   has to confirm the Story issue type, the project key and the Blocks
   link type name. `.env` must be filled in first.
-- **ship not verified live:** also needs `gh` logged in against the
-  group repo; land mode assumes the branch protection/approval flow.
+- **ship not verified live:** merge mode needs `gh` logged in against
+  the group repo to read branch CI status. (Land mode and branch
+  protection are gone — see the redesign above.)
 - **install.sh deletes nothing:** if the template was installed before,
   `.github/ISSUE_TEMPLATE/` stays in the group repo and has to be
   removed by hand.
@@ -115,12 +144,32 @@ routing gaps, no description overlaps that misfire. Found, unfixed:
 - **Portability is confined but real:** `check.sh` hardcodes
   uv/ruff/mypy/npm, ship hardcodes `gh` and `main`. All fail loudly,
   but a second project means editing `skills/`.
-- **`ship start` doesn't check for an existing branch/PR** on the key —
-  two people can start the same ticket; it surfaces first at PR time.
-- **PR template says `closes #NN`** (GitHub issues), contradicting
-  Jira-only.
+- **`ship start` doesn't check for an existing branch** on the key —
+  two people can start the same ticket; it surfaces late.
+- ~~PR template says `closes #NN`~~ — template deleted with the
+  redesign.
 - Prerequisites (`gh auth login`, uv, Node 22, `.env`, running onboard
   once per clone) were undocumented — now covered by `template/GUIDE.md`.
+
+## Open points — testbed findings 2026-09-01 (report.md, still unfixed)
+
+`report.md` is local working material (untracked), so the open items
+live here:
+
+- **mypy's version floats** in check.sh (`uv run --with mypy`) — CI can
+  go red with no code change. Pin it as a dev dependency like ruff.
+- **greet/onboard staleness check assumes linear history** — a diverged
+  sha reads as "N commits behind"; use `git merge-base --is-ancestor`.
+- **Skills vanish on branches cut from an older base** — nothing warns,
+  and the agent's skill listing can lag the filesystem both ways.
+- **ship start has no answer for a diverged main** — `git pull` is
+  assumed to succeed cleanly.
+- **grill format inflates scope** — questions become recommendations
+  become AC; no step compares the result against the original ticket.
+  Partly mitigated by plan files being reviewable; the delta-line fix
+  options in report.md are not implemented.
+- **Ticket granularity** — user stories vs sub-tickets. The user wants
+  this grilled, not decided by an agent. Do not create tickets for it.
 
 ## Open point — research skill leaks into the main session
 
@@ -197,6 +246,10 @@ Still to check live (test-repo round):
 - Session state goes through the handoff skill into `handoffs/`; this
   file is the durable home for backlog and decisions (decided
   2026-08-28 — replaced the old untracked `HANDOFF.md`).
+- **Research notes stay local** (decided 2026-09-01): `research/` is
+  gitignored and untracked — working material, never pushed. The old
+  notes remain in the public remote's history; only a history rewrite
+  would purge them.
 - **After a red check** (decided 2026-08-28): triage fork, stated in
   check's Boundary section — small fix with known cause → fix inline in
   the active mode; unknown cause → in-loop (which carries the debugging

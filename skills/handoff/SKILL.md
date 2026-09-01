@@ -14,7 +14,8 @@ reference-dense — `file:line` over prose. Written in English.
 Always `$(git rev-parse --show-toplevel)/handoffs/` — resolve the repo
 root, never write relative to the current directory. Create the folder if
 it doesn't exist. It is gitignored on purpose: handoffs are personal
-continuity notes; anything the team needs lives in Jira or the PR.
+continuity notes; anything the team needs lives in Jira or the repo
+(the ticket, the plan file, the branch).
 
 Filename `YYYY-MM-DD-handoff-N.md` — today's date, N from 1, incremented
 if the name is taken. Sorted order is chronological; the newest handoff is

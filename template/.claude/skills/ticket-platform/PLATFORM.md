@@ -26,10 +26,10 @@ Auth on every call: `-u "$JIRA_EMAIL:$JIRA_API_TOKEN"` plus
 
 ## Linking — how code reaches the ticket
 
-The Jira–GitHub integration links branches, commits and PRs to a ticket
+The Jira–GitHub integration links branches and commits to a ticket
 through the ticket key in the branch name — uppercase (`PROJ-123`,
 never `proj-123`). A branch named `feature/PROJ-123-...` is enough: its
-commits and its PR show up on the ticket automatically. No key means no
+commits show up on the ticket automatically. No key means no
 link, and it fails silently. GitHub issues are not synced at all — Jira
 is the only ticket source.
 
@@ -54,11 +54,18 @@ on their own — nothing to add to a sprint.
 
 ## Link tickets
 
-For "A blocks B", A is the outward issue:
+For "A blocks B", A goes in `inwardIssue` and B in `outwardIssue` —
+verified empirically 2026-09-01; the intuitive assignment produces the
+reversed link:
 
     curl ... -X POST "$JIRA_BASE_URL/rest/api/2/issueLink" \
       -d '{"type": {"name": "Blocks"},
-           "outwardIssue": {"key": "<A>"}, "inwardIssue": {"key": "<B>"}}'
+           "outwardIssue": {"key": "<B>"}, "inwardIssue": {"key": "<A>"}}'
+
+Verify direction by reading the links back and rendering each against the
+link type's own `inward`/`outward` labels — never by which field the
+counterpart issue appears under, which reads backwards from what you
+expect.
 
 ## Search open tickets
 
