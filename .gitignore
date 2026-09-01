@@ -3,6 +3,10 @@
 # Personal session state (handoff skill)
 handoffs/
 
+# Research notes and testbed findings — working material, stays local
+research/
+report.md
+
 # Secrets. A filled .env never belongs in git — template/.env.example is
 # the only version that does.
 .env
