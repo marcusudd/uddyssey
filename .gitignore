@@ -1,12 +1,15 @@
 .DS_Store
+
+# Personal session state (handoff skill)
 handoffs/
 
-# Giverny local files
-.claude/personal/
-.claude/artifacts/
-.claude/scripts/.env
-.claude/scripts/.env.local
-.claude/scripts/.env.*.local
-.claude/scripts/outlook-inbox-tool/.env
-.claude/scripts/outlook-inbox-tool/.cache/
-.claude/scripts/hooks/.anchor-state/
+# Secrets. A filled .env never belongs in git — template/.env.example is
+# the only version that does.
+.env
+.env.*
+!.env.example
+
+# Local agent setup for working on this repo. Nothing under here ships in
+# the template, and it holds personal files: the greet brief, local
+# scripts, tool credentials.
+.claude/
