@@ -2,17 +2,24 @@
 # Copy the harness template into a target repo. Idempotent: existing files
 # are overwritten with the template's version, nothing else is touched.
 #
-# Usage: ./install.sh /path/to/group-repo
+# Usage: ./install.sh /path/to/your-repo
 set -euo pipefail
-cd "$(dirname "$0")"
 
 TARGET="${1:-}"
 if [ -z "$TARGET" ]; then
-  echo "Usage: ./install.sh /path/to/group-repo" >&2
+  echo "Usage: ./install.sh /path/to/your-repo" >&2
   exit 1
 fi
 if [ ! -d "$TARGET/.git" ]; then
   echo "Error: $TARGET is not a git repository" >&2
+  exit 1
+fi
+# Resolve the target before leaving the caller's directory — a relative
+# path must mean what the caller sees, not this script's location.
+TARGET="$(cd "$TARGET" && pwd)"
+cd "$(dirname "$0")"
+if [ "$TARGET" = "$(pwd)" ]; then
+  echo "Error: refusing to install the template into its own repo" >&2
   exit 1
 fi
 
