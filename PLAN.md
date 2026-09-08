@@ -7,9 +7,9 @@ moves.
 
 ## Where things stand
 
-The whole skill backlog (items 1–8) is grilled and built: tickets,
+The whole skill backlog (items 1–9) is grilled and built: tickets,
 grill-me, in-loop, ship, greet + onboard + handoff, rubberduck,
-research, goal. The template ships a
+research, goal, explain. The template ships a
 `.gitignore` and install.sh merges it into the target repo (verified
 against a temp repo). The testbed round ran 2026-09-01 (findings in
 `report.md`, local working material) and led to the workflow redesign
@@ -75,6 +75,24 @@ gates move into ship instead:
    goal-to-tickets decomposition (different skill), start-as-consent
    for push/PR (ship's confirmation gate stays), landing the PR as
    exit (approval is human-paced). Mentioned in AGENTS.md workflow.
+
+9. ~~explain~~ done (2026-09-08) — explains the assistant's last
+   message (incl. a diff/traceback it showed) more simply, one step at
+   a time, until the user says it landed; user-invoked or on explicit
+   "didn't follow" signals, never proactive. Start level: developer in
+   the stack who doesn't know this one thing. Opening turn: what it's
+   about + plain-words version + the loop stated in the reply (keeps
+   the plan in the transcript on every harness). Never "does that make
+   sense?"; teach-back only after hard steps; "still don't get it" →
+   which part, one level simpler, new words. Ends by re-asking the
+   original question/choice in plain words. Mentioned in GUIDE.md only.
+   Rejected: names simplify/eli5/clarify, ELI5 start level, asking for
+   a level, `$ARGUMENTS` or any harness-specific frontmatter, a
+   `.cursor/rules` alwaysApply rule against Cursor's skill fade,
+   output styles as a substitute, other skills offering it. Research:
+   `research/explain-skills-survey.md`,
+   `research/progressive-explanation-pedagogy.md`,
+   `research/explain-skill-harness-mechanics.md`.
 
 Later pile: endpoint, component, triage, import-linter/eslint enforcement
 of the structure, epic grouping of a plan's tickets, status transitions
@@ -262,6 +280,11 @@ Still to check live (test-repo round):
 - Whether Cursor's built-in `goal`/`onboard` shadow ours.
 - Codex's precedence when a name exists in both `.codex/skills/` and
   `.agents/skills/` — not documented anywhere we could find.
+- Cursor drops a `/name`-invoked skill after one message ("fades" —
+  `research/explain-skill-harness-mechanics.md`). explain's multi-turn
+  loop relies on the agent restating the loop in its reply; check that
+  holds in Cursor, and that Option+Enter (Custom Mode) is the fallback.
+  Codex keeps injected skill text in history (verified in source).
 
 ## Decisions in force (don't change without asking)
 

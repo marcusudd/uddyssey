@@ -118,7 +118,8 @@ In words:
 
 Bracketing all of it: **`greet`** at the start of a session tells you where
 things stand, **`handoff`** at the end writes down where you stopped.
-**`research`** can be called at any point for an outside fact.
+**`research`** can be called at any point for an outside fact, and
+**`explain`** whenever an answer didn't land.
 
 You move the Jira card across the board yourself. No skill does it for you
 — the one exception is `tickets`, which can close an obsolete ticket, and
@@ -157,6 +158,7 @@ only after you approve.
 | Skill | What it does |
 |---|---|
 | `research` | Answers a question the code can't — how a library behaves, what an API supports — and saves the answer in `research/`. |
+| `explain` | Takes the agent's last answer and explains it more simply, one step at a time, until it lands. Cursor users: Option+Enter pins it for the whole chat instead of one message. |
 | `onboard` | Scans the codebase and writes the short "what's built" brief that `greet` reads. Run once after cloning. |
 | `ticket-platform` | Not a skill you invoke. It's the reference sheet of Jira calls the other skills use. |
 
