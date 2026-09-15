@@ -34,6 +34,17 @@ done, the exact stopping point, what remains, files touched with
 tested/untested status, and the decisions or gotchas the next session must
 not rediscover. Absolute dates, never "today".
 
+## Gotchas: handoff or `docs/gotcha/`
+
+Two kinds, two homes. What rots — branch state, what you just tried, a
+half-finished workaround — stays in the handoff's Gotchas section. What
+will still be true in a month — a tool that misbehaves, a setup step
+that silently fails, a wrong first guess everyone makes — is a team
+trap: write it as a bullet in `docs/gotcha/<category>.md` (conventions
+in `docs/gotcha/README.md`, add a category file if none fits), list the
+file under Files touched, and link it from the handoff's Gotchas. The
+commit is the user's — the handoff never commits.
+
 ## Template
 
 ```markdown
@@ -72,7 +83,8 @@ Remaining:
 
 ## Gotchas
 
-[decisions, blockers, assumptions — absolute dates]
+[decisions, blockers, assumptions — absolute dates. Month-stable traps
+go to `docs/gotcha/<category>.md` and are linked here, not repeated]
 ```
 
 ## Done

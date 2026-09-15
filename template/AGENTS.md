@@ -73,6 +73,15 @@ your main session's context lean.
 - No AI attribution (`Co-Authored-By: Claude`, "Generated with", etc.)
 - Never `--no-verify`, never force-push shared branches
 
+## Gotchas
+
+A trap that cost real time goes into `docs/gotcha/<category>.md`, in the
+same commit as the fix — what happened, not only what to do. One file
+per category, lowercase ASCII names; add a file when none fits. Read the
+folder before you start on an area you haven't touched, and when
+something fails without an obvious cause. The conventions are in
+`docs/gotcha/README.md`.
+
 ## Project structure
 
 The repo is `backend/` + `frontend/`. New files go where the trees below

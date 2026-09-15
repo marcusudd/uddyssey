@@ -119,7 +119,9 @@ In words:
 Bracketing all of it: **`greet`** at the start of a session tells you where
 things stand, **`handoff`** at the end writes down where you stopped.
 **`research`** can be called at any point for an outside fact, and
-**`explain`** whenever an answer didn't land.
+**`explain`** whenever an answer didn't land. A trap that cost you real
+time goes into `docs/gotcha/<category>.md` with the fix, so the next
+person doesn't pay for it twice.
 
 You move the Jira card across the board yourself. No skill does it for you
 — the one exception is `tickets`, which can close an obsolete ticket, and
@@ -214,3 +216,6 @@ touching a fix. If it turns out to be bigger work, it becomes a ticket.
 - **Handoff** — your personal end-of-session note in `handoffs/`. It is
   gitignored, so it never reaches your teammates. Anything *they* need
   belongs in Jira or the repo (the ticket, the plan file, the branch).
+- **Gotcha** (`docs/gotcha/`) — a committed, shared trap: what happened,
+  what the wrong first guess was, what fixed it. One file per category.
+  The handoff keeps what rots; this keeps what stays true.
