@@ -93,6 +93,16 @@ gates move into ship instead:
    `research/explain-skills-survey.md`,
    `research/progressive-explanation-pedagogy.md`,
    `research/explain-skill-harness-mechanics.md`.
+10. **gotcha folder** — parked 2026-09-09 from minimi (SCRUM-109), spec
+    in `notes/gotcha-folder.md`. Minimi turned `docs/gotchas.md` into
+    `docs/gotcha/<category>.md` (ASCII names — Windows/macOS normalise
+    unicode differently) and put the write-there rule in its own
+    `CLAUDE.md`, which the next install overwrites. Template side: a
+    Documentation rule in `AGENTS.md`, a handoff Gotchas split (rotting
+    traps stay in the handoff, month-stable ones go to `docs/gotcha/`),
+    and a `template/docs/gotcha/README.md` so the folder exists on
+    install. Categories are a starting set, not a schema; the rule must
+    not assume a language.
 
 Later pile: endpoint, component, triage, import-linter/eslint enforcement
 of the structure, epic grouping of a plan's tickets, status transitions
@@ -228,6 +238,17 @@ live here:
   options in report.md are not implemented.
 - **Ticket granularity** — user stories vs sub-tickets. The user wants
   this grilled, not decided by an agent. Do not create tickets for it.
+
+## Open point — onboard vs the harnesses' `/init`
+
+Noted 2026-09-15 from a loose note. Claude Code has `/init` (writes a
+CLAUDE.md from a codebase scan); Codex and Cursor may have equivalents.
+Unchecked: how much that overlaps with onboard, whether onboard should
+run or replace it, and whether onboard's brief should also carry "how
+to start and run this project" from the README when the target is an
+app. Needs research first, then a grill round — possibly together with
+the `.git/` write finding from live test round 2, since both touch
+onboard.
 
 ## Open point — research skill leaks into the main session
 
