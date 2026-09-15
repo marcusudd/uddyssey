@@ -7,6 +7,10 @@ handoffs/
 research/
 report.md
 
+# Loose notes: critique from other sessions, reports, parked items.
+# Summarised into PLAN.md when acted on, then deleted.
+notes/
+
 # Secrets. A filled .env never belongs in git — template/.env.example is
 # the only version that does.
 .env
