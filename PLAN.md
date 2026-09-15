@@ -7,7 +7,7 @@ moves.
 
 ## Where things stand
 
-The whole skill backlog (items 1–9) is grilled and built: tickets,
+The whole skill backlog (items 1–10) is grilled and built: tickets,
 grill-me, in-loop, ship, greet + onboard + handoff, rubberduck,
 research, goal, explain. The template ships a
 `.gitignore` and install.sh merges it into the target repo (verified
@@ -93,16 +93,20 @@ gates move into ship instead:
    `research/explain-skills-survey.md`,
    `research/progressive-explanation-pedagogy.md`,
    `research/explain-skill-harness-mechanics.md`.
-10. **gotcha folder** — parked 2026-09-09 from minimi (SCRUM-109), spec
-    in `notes/gotcha-folder.md`. Minimi turned `docs/gotchas.md` into
-    `docs/gotcha/<category>.md` (ASCII names — Windows/macOS normalise
-    unicode differently) and put the write-there rule in its own
-    `CLAUDE.md`, which the next install overwrites. Template side: a
-    Documentation rule in `AGENTS.md`, a handoff Gotchas split (rotting
-    traps stay in the handoff, month-stable ones go to `docs/gotcha/`),
-    and a `template/docs/gotcha/README.md` so the folder exists on
-    install. Categories are a starting set, not a schema; the rule must
-    not assume a language.
+10. ~~gotcha folder~~ done (2026-09-15) — from minimi (SCRUM-109), one
+    grill round. `docs/gotcha/<category>.md`, one file per category,
+    lowercase ASCII names (Windows/macOS normalise unicode differently),
+    entries say what *happened*, same commit as the fix, language per
+    the team's docs. Shipped: `template/docs/gotcha/README.md` (the
+    conventions; install overwrites it, the team's category files
+    survive), a `## Gotchas` section in `AGENTS.md`, a handoff split
+    (perishable traps stay in the handoff, month-stable ones are written
+    to `docs/gotcha/` and linked — handoff still never commits), one
+    line + a vocabulary entry in GUIDE.md. Rejected: a prescribed
+    category set (minimi's names are Swedish, a template list would mix
+    languages), reading `docs/gotcha/` as a ship gate, changes to any
+    other skill. Remaining: drop the stopgap line from minimi's
+    `CLAUDE.md` in the sync that brings this in.
 
 Later pile: endpoint, component, triage, import-linter/eslint enforcement
 of the structure, epic grouping of a plan's tickets, status transitions
