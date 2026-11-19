@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-# The single definition of "green": every check for backend/ and frontend/.
-# CI runs this same file, so passing locally means passing CI.
+# The single definition of "green": every check for backend/, frontend/ and
+# (when present) ml/. CI runs this same file, so passing locally means
+# passing CI.
 #
-# Usage: check.sh [backend|frontend]   (no argument = both)
+# Usage: check.sh [backend|frontend|ml]   (no argument = all)
 #
 # Runs every step even when an earlier one fails, prints a PASS/FAIL summary
 # at the end, and exits non-zero if anything failed. Never installs anything.
@@ -12,8 +13,8 @@ cd "$(git rev-parse --show-toplevel)"
 
 SCOPE="${1:-all}"
 case "$SCOPE" in
-  backend|frontend|all) ;;
-  *) echo "Usage: check.sh [backend|frontend]" >&2; exit 2 ;;
+  backend|frontend|ml|all) ;;
+  *) echo "Usage: check.sh [backend|frontend|ml]" >&2; exit 2 ;;
 esac
 
 names=()
@@ -40,7 +41,7 @@ fail_step() { # fail_step <name> <message>
   results+=(FAIL)
 }
 
-if [ "$SCOPE" != "frontend" ]; then
+if [ "$SCOPE" = "backend" ] || [ "$SCOPE" = "all" ]; then
   if [ -d backend ]; then
     run_step "ruff check"  backend uv run ruff check .
     run_step "ruff format" backend uv run ruff format --check .
@@ -51,7 +52,7 @@ if [ "$SCOPE" != "frontend" ]; then
   fi
 fi
 
-if [ "$SCOPE" != "backend" ]; then
+if [ "$SCOPE" = "frontend" ] || [ "$SCOPE" = "all" ]; then
   if [ ! -d frontend ]; then
     fail_step "frontend" "frontend/ not found — this script expects the repo's backend/ + frontend/ layout"
   elif [ ! -d frontend/node_modules ]; then
@@ -60,6 +61,17 @@ if [ "$SCOPE" != "backend" ]; then
     run_step "npm build" frontend npm run build
     # Enable when the frontend has tests:
     # run_step "npm test" frontend npm test
+  fi
+fi
+
+if [ "$SCOPE" = "ml" ] || [ "$SCOPE" = "all" ]; then
+  if [ -f ml/pyproject.toml ]; then
+    run_step "ml ruff check"  ml uv run ruff check .
+    run_step "ml ruff format" ml uv run ruff format --check .
+    run_step "ml mypy"        ml uv run --with mypy mypy --disallow-untyped-defs .
+    run_step "ml pytest"      ml uv run pytest
+  elif [ "$SCOPE" = "ml" ]; then
+    fail_step "ml" "ml/pyproject.toml not found — this repo has no ml/ project to check"
   fi
 fi
 

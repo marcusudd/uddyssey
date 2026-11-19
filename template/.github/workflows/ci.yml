@@ -31,3 +31,16 @@ jobs:
       - run: npm ci
         working-directory: frontend
       - run: bash .agents/skills/check/check.sh frontend
+
+  ml:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - if: hashFiles('ml/pyproject.toml') != ''
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg libgl1
+      - if: hashFiles('ml/pyproject.toml') != ''
+        run: uv sync
+        working-directory: ml
+      - if: hashFiles('ml/pyproject.toml') != ''
+        run: bash .agents/skills/check/check.sh ml

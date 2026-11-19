@@ -1,6 +1,6 @@
 ---
 name: check
-description: Run the repo's full verification — ruff, mypy and pytest in backend/, build in frontend/ — and report the results raw. Use before saying a task is done, before committing, and before pushing or merging, or whenever someone asks to check or verify that everything is green.
+description: Run the repo's full verification — ruff, mypy and pytest in backend/, build in frontend/, and (when present) ruff, mypy and pytest in ml/ — and report the results raw. Use before saying a task is done, before committing, and before pushing or merging, or whenever someone asks to check or verify that everything is green.
 ---
 
 # check
@@ -13,9 +13,10 @@ file CI runs — green here means green there.
 From anywhere inside the repo, run the script that sits in this skill's
 directory (the directory containing this SKILL.md):
 
-    bash <skill-dir>/check.sh            # backend + frontend
+    bash <skill-dir>/check.sh            # everything present
     bash <skill-dir>/check.sh backend    # one side only
     bash <skill-dir>/check.sh frontend
+    bash <skill-dir>/check.sh ml         # only when ml/pyproject.toml exists
 
 Run the full check unless the user asked for one side.
 
