@@ -10,6 +10,10 @@ of truth — the team works from the Scrum board, and GitHub issues are
 not used. A single ticket from a loose description is the same flow with
 n=1.
 
+In ticketless mode (`Ticket source: none` in `AGENTS.project.md`, see AGENTS.md)
+there is nothing to create: say so, and offer grill-me and a plan file
+(`plans/<YYYY-MM-DD>-<slug>.md`) instead.
+
 Credentials and every API call live in the platform file:
 `../ticket-platform/PLATFORM.md`. This skill is the workflow; the
 platform file is how to talk to the tool.

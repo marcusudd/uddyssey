@@ -88,4 +88,8 @@ if [ -n "$personal" ] || [ -n "$builtin" ]; then
 fi
 
 echo "Installed into $TARGET"
+if [ ! -f "$TARGET/AGENTS.project.md" ]; then
+  echo "No AGENTS.project.md — Jira mode by default. For a solo project without"
+  echo "Jira, create it with the line 'Ticket source: none' (see AGENTS.md)."
+fi
 echo "Next: review with 'git status' in the target repo, then commit."

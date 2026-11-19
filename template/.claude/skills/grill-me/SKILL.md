@@ -59,7 +59,9 @@ Out of scope sections.
 The skill ends at the summary. If the outcome is a plan for work, offer
 the next step — the user's yes starts it, never the offer itself:
 
-- No ticket yet → the tickets skill.
+- No ticket yet → the tickets skill. In ticketless mode (see
+  AGENTS.md) → writing the plan file `plans/<YYYY-MM-DD>-<slug>.md`
+  with the header `Ticket: none`, in rubberduck's four-part shape.
 - A ticket exists → writing the plan file, in the shape and place
   rubberduck's Land phase prescribes (`../rubberduck/SKILL.md`):
   `plans/<YYYY-MM-DD>-<KEY>-<slug>.md`. Offered, never automatic — a

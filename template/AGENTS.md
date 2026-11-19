@@ -16,6 +16,33 @@ This repo's skills live in `.claude/skills/` (`.agents/skills/` for Codex
 and Cursor). If a personally installed skill shares a name with one of
 them, the repo's copy governs — read it from that path instead.
 
+## Project settings
+
+Project-specific rules and settings live in `AGENTS.project.md` in the
+repo root — read it right after this file. The installer never creates
+or overwrites it, so what's written there survives a reinstall. Where
+it conflicts with this file, it wins for this project.
+
+One setting the skills read from it:
+
+- `Ticket source: jira` — the default, also when the file or the line
+  is missing.
+- `Ticket source: none` — ticketless mode, below.
+
+## Ticketless mode
+
+For solo projects without Jira. The workflow below stays the same —
+grill, plan file, branch, check after each step, ship's gates — minus
+the ticket:
+
+- No Jira calls and no tickets skill. Work starts with a grill
+  (grill-me) or a rubberduck on a loose description and lands as a
+  plan file.
+- Plan files: `plans/<YYYY-MM-DD>-<slug>.md`, header `Ticket: none`.
+  The slug stands in for the ticket key everywhere a skill asks for one.
+- Branches: `feature/<slug>` or `fix/<slug>`.
+- Work discovered along the way becomes a new plan file, not a ticket.
+
 ## Workflow: ticket → plan → branch → main
 
 1. Every change starts with a Jira ticket in the backlog (agents: the
@@ -45,6 +72,8 @@ them, the repo's copy governs — read it from that path instead.
    are regular merges — no squash, so branch history stays reachable
    from main and old branches are always safe to delete. Never push to
    main by hand. No PRs — CI on every branch push replaces them.
+
+In ticketless mode, steps 1 and 3 change as described above.
 
 Once a ticket's plan file exists, agents can run steps 3–4 in one go:
 the goal skill branches, works the plan with a check and a commit after

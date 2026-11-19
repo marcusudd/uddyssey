@@ -127,6 +127,21 @@ You move the Jira card across the board yourself. No skill does it for you
 — the one exception is `tickets`, which can close an obsolete ticket, and
 only after you approve.
 
+### Solo project without Jira
+
+Working alone, Jira is overhead. Create `AGENTS.project.md` in the repo
+root with the line `Ticket source: none` and the road gets shorter:
+
+```
+   idea  →  grill-me  →  plan file  →  goal (or ship start + the work)
+```
+
+Plan files are named `plans/<YYYY-MM-DD>-<slug>.md`, branches
+`feature/<slug>`, and the slug is what you hand to `goal`. Everything
+else stays: check after each step, ship's push and merge gates, the
+handoff. `tickets` does nothing in this mode. `AGENTS.project.md` is
+also where project-specific rules go — the installer never touches it.
+
 ---
 
 ## 3. The skills

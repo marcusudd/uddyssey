@@ -12,6 +12,10 @@ needs a ticket key; without a ticket, stop and offer the tickets skill
 instead. Platform calls (ticket fetch, key rules):
 `../ticket-platform/PLATFORM.md`.
 
+In ticketless mode (`Ticket source: none` in `AGENTS.project.md`, see AGENTS.md)
+there is no ticket and no platform call: every mode needs a plan file in
+`plans/` instead, and its slug stands in for the key.
+
 Offering ship — when work on a ticket branch seems done — is a
 question; the user can decline.
 
@@ -28,11 +32,13 @@ question; the user can decline.
 
 ## start — begin work on a ticket
 
-1. Fetch the ticket (platform file) and show its summary.
+1. Fetch the ticket (platform file) and show its summary. Ticketless:
+   show the plan file's header and Steps instead.
 2. `git switch main && git pull`, then branch off:
    `feature/<KEY>-short-slug`, or `fix/` when the ticket is clearly a
    bug fix. The key stays uppercase — that is what links the branch and
-   its commits to the ticket.
+   its commits to the ticket. Ticketless: `feature/<slug>` from the
+   plan file's name.
 
 If the ticket has a plan file in `plans/` that is not yet committed,
 the branch's first commit includes it.

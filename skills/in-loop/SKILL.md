@@ -35,7 +35,8 @@ Workers may write code, inside the repo's rules (AGENTS.md):
 
 - No ticket → the code is throwaway: experiments and prototypes, never
   merged.
-- Ticket exists → the normal flow applies: branch with the Jira key,
+- Ticket exists (ticketless mode: a plan file exists) → the normal
+  flow applies: branch with the Jira key (ticketless: the slug),
   checks, push through ship's gates. In-loop is a way of working, not
   an exemption from the workflow.
 
@@ -52,7 +53,8 @@ passes again.
 
 When the session winds down — or a clear finding lands — summarize in
 English what came out: findings, approaches validated or rejected, work
-discovered. If work was discovered, offer the tickets skill; its gate
+discovered. If work was discovered, offer the tickets skill (ticketless
+mode: a grill and a plan file instead); its gate
 applies as always. A half-formed plan goes through grill-me first. Never
 create tickets yourself.
 
@@ -61,5 +63,5 @@ create tickets yourself.
 - A plan taking shape → grill-me
 - A question the codebase can't answer (library behavior, API facts)
   → offer research (`../research/SKILL.md`)
-- Real work discovered → tickets
+- Real work discovered → tickets (ticketless mode: a plan file)
 - Before claiming something works → check

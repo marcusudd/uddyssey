@@ -101,7 +101,8 @@ agent; the main session does not go and look for itself.
 
 Relay the file path and the TL;DR. Never commit — that's the user's
 call. If the question served a ticket discussion, offer to fold the
-conclusion into the ticket via the tickets gate (or the running
+conclusion into the ticket via the tickets gate (ticketless mode:
+into the plan file) (or the running
 rubberduck flow) — no automatic coupling.
 
 ## Boundary

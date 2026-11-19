@@ -328,6 +328,11 @@ Still to check live (test-repo round):
 - Jira is the ticket source; GitHub issues are not used. The whole Jira
   API surface lives in `skills/ticket-platform/PLATFORM.md` — skills
   point there; switching platforms means rewriting one file.
+  **Amended 2026-11-19:** Jira stays the default; `Ticket source: none`
+  in the target's `AGENTS.project.md` is an explicit per-project opt-out
+  for solo projects (ticketless mode, defined once in AGENTS.md). The
+  project-settings file is the first real need for project-specific
+  info — the installer never creates or overwrites it.
 - **Group repo:** conventional commits (see AGENTS.md). **This repo:**
   imperative subjects, no prefixes, no AI attribution. Don't mix them up.
 - CI assumes a `backend/` + `frontend/` layout.

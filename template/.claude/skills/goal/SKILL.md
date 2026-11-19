@@ -11,10 +11,13 @@ The completion mode: once a ticket has a plan file in `plans/`
 branch without stopping for input. It stops for decisions, never for
 reassurance.
 
-Needs a ticket key. Without one, stop: a loose goal goes through
-tickets (and grill-me) first — goal is not a way around the workflow.
-Find the ticket's plan file in `plans/` — files are named
-`<YYYY-MM-DD>-<KEY>-<slug>.md`; the latest date for the key wins. The
+Needs a ticket key — or, in ticketless mode (`Ticket source: none` in `AGENTS.project.md`, see AGENTS.md),
+a plan slug or plan file path. Without one, stop: a loose goal goes
+through tickets (and grill-me) first — in ticketless mode through
+grill-me and a plan file — goal is not a way around the workflow.
+Find the plan file in `plans/` — files are named
+`<YYYY-MM-DD>-<KEY>-<slug>.md` (ticketless: `<YYYY-MM-DD>-<slug>.md`);
+the latest date for the key (or slug) wins. The
 plan file is the only source goal reads the plan from — never the
 ticket's description. No plan file → offer rubberduck
 (`../rubberduck/SKILL.md`) and take over once the plan has landed.
@@ -22,7 +25,7 @@ ticket's description. No plan file → offer rubberduck
 ## The loop
 
 1. **Start** — ship's start mode (`../ship/SKILL.md`): branch off main,
-   named with the ticket key. Commit the plan file first if it is
+   named with the ticket key (ticketless: the slug). Commit the plan file first if it is
    uncommitted.
 2. **Work the plan's Steps, one by one** — delegate as in in-loop's
    Delegation section (`../in-loop/SKILL.md`). After each step, run
@@ -60,5 +63,5 @@ session.
   and the user's yes on the commits.
 - Never merge to main.
 - Never touch ticket status — the team moves the cards.
-- Never widen scope — new work discovered goes to tickets, not into
-  the branch.
+- Never widen scope — new work discovered goes to tickets (ticketless:
+  a new plan file), not into the branch.

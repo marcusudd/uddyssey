@@ -57,7 +57,7 @@ date: [ISO timestamp]
 
 ## Task
 
-- Ticket: [PROJ-123, or "no ticket — in-loop"]
+- Ticket: [PROJ-123, the plan slug in ticketless mode, or "no ticket — in-loop"]
 - Branch: [branch name]
 
 ## State

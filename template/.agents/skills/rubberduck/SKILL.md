@@ -15,6 +15,12 @@ Never implements.
 Needs a ticket key. Without one, stop: offer tickets (create one first)
 or in-loop (explore without the workflow).
 
+In ticketless mode (`Ticket source: none` in `AGENTS.project.md`, see AGENTS.md)
+the input is a loose description instead: skip Read, run Research and
+Grill as below, and Land writes only the plan file —
+`plans/<YYYY-MM-DD>-<slug>.md` with the header `Ticket: none` — no
+reconcile proposal, no tickets skill. Done when the file is written.
+
 ## Phases
 
 1. **Read** — fetch the ticket (read call in

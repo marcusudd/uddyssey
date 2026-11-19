@@ -48,7 +48,8 @@ picks the route:
 - Small fix, cause known → fix inline in whatever mode is active; the
   normal workflow rules still apply.
 - Cause unknown → in-loop, which carries the debugging discipline.
-- Turns out to be new or bigger work → tickets.
+- Turns out to be new or bigger work → tickets (ticketless mode: a
+  plan file).
 
 Whichever route: the fix is done only when this same check runs green
 again.
